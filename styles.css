@@ -1,0 +1,123 @@
+:root {
+  --background-color: #000201;
+  --dashboard-color: #2c609c;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+html,
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--background-color);
+}
+
+.fullscreen-rectangle {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: #fff;
+  border: 5px solid var(--background-color);
+  border-radius: 20px;
+  background-clip: padding-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.top-left-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--dashboard-color);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Press Start 2P', sans-serif;
+  padding: 10px 50px 10px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  height: 50px;
+  border-right: 2px solid var(--background-color);
+  border-bottom: 2px solid var(--background-color);
+  border-radius: 10px 0 0 0;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  clip-path: polygon(0% 0%, 95% 0%, 85% 100%, 0% 100%);
+}
+
+.top-left-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 13px;
+  width: 2px;
+  height: 100%;
+  background-color: var(--background-color);
+  transform: skewX(-29deg);
+  transform-origin: top right;
+}
+
+.bottom-dashboard {
+  position: absolute;
+  width: 160px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dashboard-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-radius: 0 100px 0 15px;
+  border-top: 2px solid var(--background-color);
+  border-right: 2px solid var(--background-color);
+}
+
+.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-radius: 100px 0 15px 0;
+  border-top: 2px solid var(--background-color);
+  border-left: 2px solid var(--background-color);
+}
+
+.landscape-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.landscape-modal p {
+  background-color: white;
+  padding: 20px;
+  margin: auto 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .bottom-dashboard {
+    width: 120px;
+    height: 50px;
+  }
+}
