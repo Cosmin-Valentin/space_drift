@@ -56,4 +56,15 @@ buttonRight.addEventListener('touchstart', function (e) {
 
 function changeShip() {
   shipImage.src = `images/ships/${ships[shipIndex]}.png`
+  addTiltEffect()
+}
+
+function addTiltEffect() {
+  shipImage.style.transition = 'transform 0.3s ease-in-out'
+  shipImage.style.transform = `rotate3d(0, 1, 0, ${
+    shipIndex % 0 ? '' : '-'
+  }15deg)`
+  setTimeout(() => {
+    shipImage.style.transform = 'rotate3d(0, 1, 0, 0deg)'
+  }, 300)
 }
