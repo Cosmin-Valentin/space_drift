@@ -8,14 +8,29 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="dahsboard-styles.css" />
+    <link rel="stylesheet" href="game-styles.css" />
     <script src="script.js" defer></script>
   </head>
   <body>
     <div class="fullscreen-rectangle">
       <div class="fullscreen-wrapper">
-        <div class="top-left-banner">Your score: 10</div>
-        Game content
+        <div class="top-left-banner">Your score: 0</div>
+        <div class="game-wrapper">
+          <div class="game-inner">
+            <div class="game-prompt">
+              <span class="game-prompt-text">Please select a ship</span>
+            </div>
+            <div class="game">
+              <div class="path"></div>
+              <div class="ship-wrapper choose-ship">
+                <div class="ship">
+                  <img src="images/ships/ship-1.png" alt="space craft" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="bottom-dashboard bottom-left">
           <img src="/images/arrows/left.png" alt="left arrow" />
         </div>

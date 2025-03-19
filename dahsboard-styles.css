@@ -1,6 +1,7 @@
 :root {
   --background-color: #222222;
   --dashboard-color: #2c609c;
+  --white: #fafafa;
 }
 
 * {
@@ -31,7 +32,7 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: #fff;
+  background-color: var(--white);
   border: 5px solid var(--background-color);
   border-radius: 15px;
   background-clip: padding-box;
@@ -43,7 +44,7 @@ body {
   top: 0;
   left: 0;
   background-color: var(--dashboard-color);
-  color: #fff;
+  color: var(--white);
   font-size: 16px;
   font-weight: bold;
   font-family: 'Press Start 2P', sans-serif;
@@ -65,11 +66,11 @@ body {
   content: '';
   position: absolute;
   top: 0;
-  right: 13px;
+  right: 10px;
   width: 2px;
   height: 100%;
   background-color: var(--background-color);
-  transform: skewX(-29deg);
+  transform: skewX(-28deg);
   transform-origin: top right;
 }
 

@@ -1,0 +1,72 @@
+.game-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-image: url('../images/background/space.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.game-prompt {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  height: 50px;
+  border: 2px solid var(--background-color);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+}
+
+.game-prompt-text {
+  display: inline-block;
+  color: var(--background-color);
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Press Start 2P', sans-serif;
+  padding: 10px 20px;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.ship-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: bottom 0.3s ease;
+}
+
+.ship-wrapper img {
+  width: 20vh;
+  height: 30vh;
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.ship-wrapper.choose-ship {
+  bottom: 15%;
+}
+
+.ship-wrapper.choose-ship img {
+  width: 30vh;
+  height: 50vh;
+}
