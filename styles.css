@@ -1,5 +1,5 @@
 :root {
-  --background-color: #000201;
+  --background-color: #222222;
   --dashboard-color: #2c609c;
 }
 
@@ -15,19 +15,25 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: var(--background-color);
+  background-color: #000201;
 }
 
 .fullscreen-rectangle {
   height: 100vh;
   width: 100vw;
+  border: 5px solid #000201;
+}
+
+.fullscreen-wrapper {
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   background-color: #fff;
   border: 5px solid var(--background-color);
-  border-radius: 20px;
+  border-radius: 15px;
   background-clip: padding-box;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -49,7 +55,7 @@ body {
   height: 50px;
   border-right: 2px solid var(--background-color);
   border-bottom: 2px solid var(--background-color);
-  border-radius: 10px 0 0 0;
+  border-radius: 9px 0 0 0;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   text-transform: uppercase;
   clip-path: polygon(0% 0%, 95% 0%, 85% 100%, 0% 100%);
@@ -75,13 +81,16 @@ body {
   align-items: center;
   justify-content: center;
   background-color: var(--dashboard-color);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -6px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out,
+    bottom 0.1s ease-in-out, left 0.1s ease-in-out, right 0.1s ease-in-out,
+    background-color 0.1s ease-in-out;
 }
 
 .bottom-left {
   bottom: 0;
   left: 0;
-  border-radius: 0 100px 0 15px;
+  border-radius: 0 100px 0 12px;
   border-top: 2px solid var(--background-color);
   border-right: 2px solid var(--background-color);
 }
@@ -89,9 +98,40 @@ body {
 .bottom-right {
   bottom: 0;
   right: 0;
-  border-radius: 100px 0 15px 0;
+  border-radius: 100px 0 12px 0;
   border-top: 2px solid var(--background-color);
   border-left: 2px solid var(--background-color);
+}
+
+.bottom-dashboard.pressed,
+.bottom-dashboard:hover {
+  bottom: -1px;
+  transform: scale(0.98);
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #6796c8;
+}
+
+.bottom-left.pressed,
+.bottom-left:hover {
+  left: -2px;
+}
+
+.bottom-right.pressed,
+.bottom-right:hover {
+  right: -2px;
+}
+
+.bottom-dashboard img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.bottom-left img {
+  margin-left: -25%;
+}
+
+.bottom-right img {
+  margin-right: -25%;
 }
 
 .landscape-modal {
