@@ -6,6 +6,8 @@ const shipImage = document.querySelector('.ship img')
 const shipWrapper = document.querySelector('.ship-wrapper')
 const ships = ['ship-1', 'ship-2', 'ship-3', 'ship-4']
 let shipIndex = 0
+const startButton = document.querySelector('.top-right-banner')
+let isGameStarted = false
 
 document.addEventListener('keydown', (e) => {
   if (!isProcessing) {
@@ -17,8 +19,22 @@ document.addEventListener('keydown', (e) => {
   }
 })
 
+buttonLeft.addEventListener('touchstart', function (e) {
+  handleTouch(e, 'left')
+})
+buttonRight.addEventListener('touchstart', function (e) {
+  handleTouch(e, 'right')
+})
+
+startButton.addEventListener('click', () => {
+  shipWrapper.style.transition = 'bottom 1s ease-in'
+  document.querySelector('.game-prompt').style.display = 'none'
+  shipWrapper.classList.remove('choose-ship')
+  startButton.style.display = 'none'
+  isGameStarted = true
+})
+
 function handleDirection(direction) {
-  console.log(direction)
   isProcessing = true
   document
     .querySelector(`.bottom-dashboard.bottom-${direction}`)
@@ -48,15 +64,9 @@ function handleTouch(e, direction) {
   e.preventDefault()
 }
 
-buttonLeft.addEventListener('touchstart', function (e) {
-  handleTouch(e, 'left')
-})
-buttonRight.addEventListener('touchstart', function (e) {
-  handleTouch(e, 'right')
-})
-
 function changeShip(direction) {
-  shipWrapper.style.transition = 'bottom 0.3s ease, left 0.5s ease'
+  if (isGameStarted) return
+  shipWrapper.style.transition = 'left 0.3s ease'
   shipWrapper.style.left = direction === 'right' ? '-100%' : '200%'
 
   setTimeout(() => {
@@ -64,15 +74,18 @@ function changeShip(direction) {
 
     shipWrapper.style.transition = 'none'
     shipWrapper.style.left = direction === 'right' ? '200%' : '-100%'
+
     setTimeout(() => {
-      shipWrapper.style.transition = 'bottom 0.3s ease, left 0.5s ease'
+      shipWrapper.style.transition = 'left 0.3s ease'
       shipWrapper.style.left = '50%'
 
       setTimeout(() => {
         addTiltEffect()
-      }, 500)
+        shipWrapper.style.removeProperty('transition')
+        shipWrapper.style.removeProperty('left')
+      }, 300)
     }, 50)
-  }, 500)
+  }, 300)
 }
 
 function addTiltEffect() {
@@ -80,7 +93,12 @@ function addTiltEffect() {
   shipImage.style.transform = `rotate3d(0, 1, 0, ${
     shipIndex % 2 ? '' : '-'
   }15deg)`
+
   setTimeout(() => {
     shipImage.style.transform = 'rotate3d(0, 1, 0, 0deg)'
+    setTimeout(() => {
+      shipImage.style.removeProperty('transition')
+      shipImage.style.removeProperty('transform')
+    }, 300)
   }, 300)
 }

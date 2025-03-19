@@ -39,26 +39,30 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.top-left-banner {
+.top-left-banner,
+.top-right-banner {
   position: absolute;
   top: 0;
-  left: 0;
   background-color: var(--dashboard-color);
   color: var(--white);
   font-size: 16px;
   font-weight: bold;
   font-family: 'Press Start 2P', sans-serif;
-  padding: 10px 50px 10px 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 200px;
   height: 50px;
-  border-right: 2px solid var(--background-color);
   border-bottom: 2px solid var(--background-color);
-  border-radius: 9px 0 0 0;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   text-transform: uppercase;
+}
+
+.top-left-banner {
+  left: 0;
+  padding: 10px 50px 10px 5px;
+  min-width: 200px;
+  border-right: 2px solid var(--background-color);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  border-radius: 9px 0 0 0;
   clip-path: polygon(0% 0%, 95% 0%, 85% 100%, 0% 100%);
 }
 
@@ -72,6 +76,29 @@ body {
   background-color: var(--background-color);
   transform: skewX(-28deg);
   transform-origin: top right;
+}
+
+.top-right-banner {
+  cursor: pointer;
+  right: 0;
+  padding: 10px 5px 10px 50px;
+  min-width: 150px;
+  border-left: 2px solid var(--background-color);
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
+  border-radius: 0 9px 0 0;
+  clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 31% 100%);
+}
+
+.top-right-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 2px;
+  height: 100%;
+  background-color: var(--background-color);
+  transform: skewX(28deg);
+  transform-origin: top left;
 }
 
 .bottom-dashboard {

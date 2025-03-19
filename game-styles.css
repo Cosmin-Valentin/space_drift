@@ -54,13 +54,12 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  transition: bottom 0.3s ease;
 }
 
 .ship-wrapper img {
   width: 20vh;
   height: 30vh;
-  transition: width 0.3s ease, height 0.3s ease;
+  transition: width 0.5s ease-in, height 0.5s ease-in;
 }
 
 .ship-wrapper.choose-ship {
@@ -70,4 +69,11 @@
 .ship-wrapper.choose-ship img {
   width: 30vh;
   height: 50vh;
+}
+
+@media screen and (max-width: 768px) {
+  .game-prompt-text {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
 }
