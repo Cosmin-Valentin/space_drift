@@ -3,6 +3,7 @@ const buttonRight = document.querySelector('.bottom-dashboard.bottom-right')
 let isProcessing = false
 const eventDuration = 100
 const shipImage = document.querySelector('.ship img')
+const shipWrapper = document.querySelector('.ship-wrapper')
 const ships = ['ship-1', 'ship-2', 'ship-3', 'ship-4']
 let shipIndex = 0
 
@@ -25,10 +26,10 @@ function handleDirection(direction) {
 
   if (direction === 'left' && shipIndex > 0) {
     shipIndex--
-    changeShip()
+    changeShip(direction)
   } else if (direction === 'right' && shipIndex < ships.length - 1) {
     shipIndex++
-    changeShip()
+    changeShip(direction)
   }
 
   setTimeout(() => {
@@ -54,15 +55,30 @@ buttonRight.addEventListener('touchstart', function (e) {
   handleTouch(e, 'right')
 })
 
-function changeShip() {
-  shipImage.src = `images/ships/${ships[shipIndex]}.png`
-  addTiltEffect()
+function changeShip(direction) {
+  shipWrapper.style.transition = 'bottom 0.3s ease, left 0.5s ease'
+  shipWrapper.style.left = direction === 'right' ? '-100%' : '200%'
+
+  setTimeout(() => {
+    shipImage.src = `images/ships/${ships[shipIndex]}.png`
+
+    shipWrapper.style.transition = 'none'
+    shipWrapper.style.left = direction === 'right' ? '200%' : '-100%'
+    setTimeout(() => {
+      shipWrapper.style.transition = 'bottom 0.3s ease, left 0.5s ease'
+      shipWrapper.style.left = '50%'
+
+      setTimeout(() => {
+        addTiltEffect()
+      }, 500)
+    }, 50)
+  }, 500)
 }
 
 function addTiltEffect() {
   shipImage.style.transition = 'transform 0.3s ease-in-out'
   shipImage.style.transform = `rotate3d(0, 1, 0, ${
-    shipIndex % 0 ? '' : '-'
+    shipIndex % 2 ? '' : '-'
   }15deg)`
   setTimeout(() => {
     shipImage.style.transform = 'rotate3d(0, 1, 0, 0deg)'
