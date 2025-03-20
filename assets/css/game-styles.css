@@ -71,9 +71,35 @@
   height: 50vh;
 }
 
+.ship-wrapper.bank-left {
+  left: 170px;
+}
+
+.ship-wrapper.bank-right {
+  left: calc(100% - 170px);
+}
+
+.ship-wrapper.bank-left img {
+  transform: rotate3d(0, 1, 0, -15deg);
+  filter: drop-shadow(-25px 10px 5px rgba(0, 0, 0, 0.5));
+}
+
+.ship-wrapper.bank-right img {
+  transform: rotate3d(0, 1, 0, 15deg);
+  filter: drop-shadow(25px 10px 5px rgba(0, 0, 0, 0.5));
+}
+
 @media screen and (max-width: 768px) {
   .game-prompt-text {
     font-size: 12px;
     padding: 5px 10px;
+  }
+
+  .ship-wrapper.bank-left {
+    left: 120px;
+  }
+
+  .ship-wrapper.bank-right {
+    left: calc(100% - 120px);
   }
 }
