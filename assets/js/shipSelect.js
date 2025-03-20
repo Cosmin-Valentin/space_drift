@@ -1,9 +1,7 @@
 const ships = ['ship-1', 'ship-2', 'ship-3', 'ship-4']
 let shipIndex = 0
 
-export function changeShip(isGameStarted, direction, shipImage, shipWrapper) {
-  if (isGameStarted) return
-
+export function changeShip(direction, shipImage, shipWrapper) {
   if (direction === 'left' && shipIndex > 0) {
     shipIndex--
   } else if (direction === 'right' && shipIndex < ships.length - 1) {

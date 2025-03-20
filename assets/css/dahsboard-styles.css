@@ -40,7 +40,8 @@ body {
 }
 
 .top-left-banner,
-.top-right-banner {
+.top-right-start-banner,
+.top-right-restart-banner {
   position: absolute;
   top: 0;
   background-color: var(--dashboard-color);
@@ -59,7 +60,7 @@ body {
 .top-left-banner {
   left: 0;
   padding: 10px 50px 10px 5px;
-  min-width: 200px;
+  width: 300px;
   border-right: 2px solid var(--background-color);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   border-radius: 9px 0 0 0;
@@ -70,34 +71,40 @@ body {
   content: '';
   position: absolute;
   top: 0;
-  right: 10px;
+  right: 12px;
   width: 2px;
   height: 100%;
   background-color: var(--background-color);
-  transform: skewX(-28deg);
+  transform: skewX(-31deg);
   transform-origin: top right;
 }
 
-.top-right-banner {
+.top-right-start-banner,
+.top-right-restart-banner {
   cursor: pointer;
   right: 0;
   padding: 10px 5px 10px 50px;
-  min-width: 150px;
+  width: 180px;
   border-left: 2px solid var(--background-color);
   box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
   border-radius: 0 9px 0 0;
   clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 31% 100%);
 }
 
-.top-right-banner::after {
+.top-right-restart-banner {
+  display: none;
+}
+
+.top-right-start-banner::after,
+.top-right-restart-banner::after {
   content: '';
   position: absolute;
   top: 0;
-  left: 10px;
+  left: 16px;
   width: 2px;
   height: 100%;
   background-color: var(--background-color);
-  transform: skewX(28deg);
+  transform: skewX(37deg);
   transform-origin: top left;
 }
 
