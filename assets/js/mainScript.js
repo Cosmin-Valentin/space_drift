@@ -1,13 +1,16 @@
 import { changeShip } from './shipSelect.js'
 import { moveShip } from './shipDodge.js'
+import { spawnObstacle } from './obstacleScript.js'
 
-const buttonLeft = document.querySelector('.bottom-dashboard.bottom-left')
-const buttonRight = document.querySelector('.bottom-dashboard.bottom-right')
-const shipImage = document.querySelector('.ship img')
-const shipWrapper = document.querySelector('.ship-wrapper')
 const startButton = document.querySelector('.top-right-start-banner')
 const reStartButton = document.querySelector('.top-right-restart-banner')
+const buttonLeft = document.querySelector('.bottom-dashboard.bottom-left')
+const buttonRight = document.querySelector('.bottom-dashboard.bottom-right')
+const gameWrapper = document.querySelector('.game-wrapper')
 const gamePrompt = document.querySelector('.game-prompt')
+const path = document.querySelector('.path')
+const shipWrapper = document.querySelector('.ship-wrapper')
+const shipImage = document.querySelector('.ship img')
 let isProcessing = false
 let isGameStarted = false
 const eventDuration = 100
@@ -39,6 +42,7 @@ startButton.addEventListener('pointerdown', (e) => {
     startButton.style.display = 'none'
     reStartButton.style.display = 'flex'
     isGameStarted = true
+    init()
   }, 200)
 })
 
@@ -65,4 +69,8 @@ function handleTouch(e, direction) {
     handleDirection(direction)
   }
   e.preventDefault()
+}
+
+function init() {
+  spawnObstacle(gameWrapper, shipWrapper, path)
 }

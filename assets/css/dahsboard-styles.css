@@ -57,6 +57,13 @@ body {
   text-transform: uppercase;
 }
 
+.top-left-banner span {
+  color: var(--white);
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Press Start 2P', sans-serif;
+}
+
 .top-left-banner {
   left: 0;
   padding: 10px 50px 10px 5px;
