@@ -1,3 +1,5 @@
+setScreenHeight()
+
 window.addEventListener('resize', checkOrientation)
 window.addEventListener('load', checkOrientation)
 
@@ -6,6 +8,7 @@ function checkOrientation() {
     showLandscapeModal()
   } else {
     hideLandscapeModal()
+    setScreenHeight()
   }
 }
 
@@ -15,4 +18,8 @@ showLandscapeModal = () => {
 
 hideLandscapeModal = () => {
   document.querySelector('.landscape-modal').style.display = 'none'
+}
+
+function setScreenHeight() {
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight}px`)
 }

@@ -12,6 +12,7 @@ const gamePrompt = document.querySelector('.game-prompt')
 const path = document.querySelector('.path')
 const shipWrapper = document.querySelector('.ship-wrapper')
 const shipImage = document.querySelector('.ship img')
+
 let isProcessing = false
 let isGameStarted = false
 const eventDuration = 100
@@ -22,12 +23,13 @@ document.addEventListener('keydown', (e) => {
   if (['d', 'ArrowRight'].includes(e.key)) handleDirection('right')
 })
 
-buttonLeft.addEventListener('pointerdown', (e) => {
-  handleTouch(e, 'left')
-})
-buttonRight.addEventListener('pointerdown', (e) => {
-  handleTouch(e, 'right')
-})
+buttonLeft.addEventListener('pointerdown', (e) => handleTouch(e, 'left'))
+buttonRight.addEventListener('pointerdown', (e) => handleTouch(e, 'right'))
+
+buttonLeft.addEventListener('pointerup', () => removePressedClass())
+buttonRight.addEventListener('pointerup', () => removePressedClass())
+buttonLeft.addEventListener('touchend', () => removePressedClass())
+buttonRight.addEventListener('touchend', () => removePressedClass())
 
 reStartButton.addEventListener('pointerdown', (e) => {
   e.target.style.opacity = 0.5
@@ -67,9 +69,7 @@ function handleDirection(direction) {
 
   setTimeout(() => {
     isProcessing = false
-    document
-      .querySelectorAll('.bottom-dashboard')
-      .forEach((el) => el.classList.remove('pressed'))
+    removePressedClass()
   }, eventDuration)
   return direction
 }
@@ -83,4 +83,10 @@ function handleTouch(e, direction) {
 
 function handleGameEnd(score) {
   updatePrompt(gamePrompt, `Level Over! Your score: ${score}`)
+}
+
+function removePressedClass() {
+  document
+    .querySelectorAll('.bottom-dashboard')
+    .forEach((el) => el.classList.remove('pressed'))
 }
