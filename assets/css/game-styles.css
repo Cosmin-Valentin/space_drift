@@ -25,7 +25,9 @@
 }
 
 .game-prompt-text {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--white);
   font-size: 20px;
   font-weight: bold;
@@ -40,6 +42,16 @@
   100% {
     opacity: 0.6;
   }
+}
+
+.game-prompt-text .cookie {
+  width: 25px;
+  height: 25px;
+  background-image: url('../images/obstacles/cookie.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 15px;
 }
 
 .ship-wrapper {

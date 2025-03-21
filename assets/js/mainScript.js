@@ -1,6 +1,7 @@
 import { changeShip } from './shipSelect.js'
 import { moveShip } from './shipDodge.js'
 import { spawnObstacle } from './obstacleScript.js'
+import { updatePrompt } from './promptScript.js'
 
 const startButton = document.querySelector('.top-right-start-banner')
 const reStartButton = document.querySelector('.top-right-restart-banner')
@@ -37,7 +38,6 @@ startButton.addEventListener('pointerdown', (e) => {
   e.target.style.opacity = 0.5
   setTimeout(() => {
     shipWrapper.style.transition = 'bottom 1s ease-in'
-    gamePrompt.style.display = 'none'
     shipWrapper.classList.remove('choose-ship')
     startButton.style.display = 'none'
     reStartButton.style.display = 'flex'
@@ -45,6 +45,16 @@ startButton.addEventListener('pointerdown', (e) => {
     init()
   }, 200)
 })
+
+function init() {
+  updatePrompt(
+    gamePrompt,
+    'Get most space <div class="cookie"></div> out of 100'
+  )
+  setTimeout(() => {
+    spawnObstacle(gameWrapper, shipWrapper, path, handleGameEnd)
+  }, 1000)
+}
 
 function handleDirection(direction) {
   isProcessing = true
@@ -71,8 +81,6 @@ function handleTouch(e, direction) {
   e.preventDefault()
 }
 
-function init() {
-  setTimeout(() => {
-    spawnObstacle(gameWrapper, shipWrapper, path)
-  }, 1000)
+function handleGameEnd(score) {
+  updatePrompt(gamePrompt, `Level Over! Your score: ${score}`)
 }

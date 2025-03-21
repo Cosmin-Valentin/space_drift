@@ -3,9 +3,15 @@ let obstacleSpeed = 10
 let currentObstacle = null
 let score = 0
 let obstacleCount = 0
+const maxObstacle = 100
 
-export function spawnObstacle(gameWrapper, shipWrapper, path) {
+export function spawnObstacle(gameWrapper, shipWrapper, path, onGameEnd) {
   if (currentObstacle) return
+
+  if (obstacleCount >= maxObstacle) {
+    onGameEnd(score)
+    return
+  }
 
   obstacleCount++
   if (obstacleCount % 5 === 0) obstacleSpeed += 1
@@ -23,17 +29,18 @@ export function spawnObstacle(gameWrapper, shipWrapper, path) {
 
   path.appendChild(obstacle)
   currentObstacle = obstacle
-  moveObstacle(obstacle, gameWrapper, shipWrapper, path)
+  moveObstacle(obstacle, gameWrapper, shipWrapper, path, onGameEnd)
 }
 
-function moveObstacle(obstacle, gameWrapper, shipWrapper, path) {
+function moveObstacle(obstacle, gameWrapper, shipWrapper, path, onGameEnd) {
   let obstacleInterval = setInterval(() => {
     let currentTop = parseInt(obstacle.style.top)
+
     if (currentTop >= gameWrapper.clientHeight) {
       obstacle.remove()
       clearInterval(obstacleInterval)
       currentObstacle = null
-      setTimeout(spawnObstacle(gameWrapper, shipWrapper, path), 500)
+      setTimeout(spawnObstacle(gameWrapper, shipWrapper, path, onGameEnd), 500)
     } else {
       obstacle.style.top = `${currentTop + obstacleSpeed}px`
 
@@ -43,7 +50,10 @@ function moveObstacle(obstacle, gameWrapper, shipWrapper, path) {
         obstacle.remove()
         clearInterval(obstacleInterval)
         currentObstacle = null
-        setTimeout(spawnObstacle(gameWrapper, shipWrapper, path), 500)
+        setTimeout(
+          spawnObstacle(gameWrapper, shipWrapper, path, onGameEnd),
+          500
+        )
       }
     }
   }, 50)
