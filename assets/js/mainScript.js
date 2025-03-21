@@ -21,10 +21,12 @@ document.addEventListener('keydown', (e) => {
   if (isProcessing) return
   if (['a', 'ArrowLeft'].includes(e.key)) handleDirection('left')
   if (['d', 'ArrowRight'].includes(e.key)) handleDirection('right')
+  if (['Enter', ' '].includes(e.key) && !isGameStarted) startGame()
 })
 
 buttonLeft.addEventListener('pointerdown', (e) => handleTouch(e, 'left'))
 buttonRight.addEventListener('pointerdown', (e) => handleTouch(e, 'right'))
+startButton.addEventListener('pointerdown', (e) => startGame())
 
 buttonLeft.addEventListener('pointerup', () => removePressedClass())
 buttonRight.addEventListener('pointerup', () => removePressedClass())
@@ -34,18 +36,6 @@ buttonRight.addEventListener('touchend', () => removePressedClass())
 reStartButton.addEventListener('pointerdown', (e) => {
   e.target.style.opacity = 0.5
   setTimeout(() => window.location.reload(), 200)
-})
-
-startButton.addEventListener('pointerdown', (e) => {
-  e.target.style.opacity = 0.5
-  setTimeout(() => {
-    shipWrapper.style.transition = 'bottom 1s ease-in'
-    shipWrapper.classList.remove('choose-ship')
-    startButton.style.display = 'none'
-    reStartButton.style.display = 'flex'
-    isGameStarted = true
-    init()
-  }, 200)
 })
 
 function init() {
@@ -79,6 +69,18 @@ function handleTouch(e, direction) {
     handleDirection(direction)
   }
   e.preventDefault()
+}
+
+function startGame() {
+  startButton.style.opacity = 0.5
+  setTimeout(() => {
+    shipWrapper.style.transition = 'bottom 1s ease-in'
+    shipWrapper.classList.remove('choose-ship')
+    startButton.style.display = 'none'
+    reStartButton.style.display = 'flex'
+    isGameStarted = true
+    init()
+  }, 200)
 }
 
 function handleGameEnd(score) {
