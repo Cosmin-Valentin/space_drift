@@ -1,10 +1,14 @@
-const obstacleSpeed = 10
 const scoreElement = document.querySelector('.top-left-banner span')
+let obstacleSpeed = 10
 let currentObstacle = null
 let score = 0
+let obstacleCount = 0
 
 export function spawnObstacle(gameWrapper, shipWrapper, path) {
   if (currentObstacle) return
+
+  obstacleCount++
+  if (obstacleCount % 5 === 0) obstacleSpeed += 1
 
   const obstacle = document.createElement('div')
   obstacle.classList.add('obstacle')

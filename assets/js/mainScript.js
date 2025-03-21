@@ -72,5 +72,7 @@ function handleTouch(e, direction) {
 }
 
 function init() {
-  spawnObstacle(gameWrapper, shipWrapper, path)
+  setTimeout(() => {
+    spawnObstacle(gameWrapper, shipWrapper, path)
+  }, 1000)
 }
