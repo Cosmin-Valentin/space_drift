@@ -28,10 +28,12 @@ buttonLeft.addEventListener('pointerdown', (e) => handleTouch(e, 'left'))
 buttonRight.addEventListener('pointerdown', (e) => handleTouch(e, 'right'))
 startButton.addEventListener('pointerdown', (e) => startGame())
 
-buttonLeft.addEventListener('pointerup', () => removePressedClass())
-buttonRight.addEventListener('pointerup', () => removePressedClass())
-buttonLeft.addEventListener('touchend', () => removePressedClass())
-buttonRight.addEventListener('touchend', () => removePressedClass())
+buttonLeft.addEventListener('pointerup', removePressedClass)
+buttonRight.addEventListener('pointerup', removePressedClass)
+buttonLeft.addEventListener('touchend', removePressedClass, { passive: true })
+buttonRight.addEventListener('touchend', removePressedClass, { passive: true })
+buttonLeft.addEventListener('touchcancel', removePressedClass)
+buttonRight.addEventListener('touchcancel', removePressedClass)
 
 reStartButton.addEventListener('pointerdown', (e) => {
   e.target.style.opacity = 0.5
