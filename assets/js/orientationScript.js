@@ -21,5 +21,8 @@ hideLandscapeModal = () => {
 }
 
 function setScreenHeight() {
-  document.documentElement.style.setProperty('--vh', `${window.innerHeight}px`)
+  const vh = window.visualViewport
+    ? window.visualViewport.height
+    : window.innerHeight
+  document.documentElement.style.setProperty('--vh', `${vh}px`)
 }
