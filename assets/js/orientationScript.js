@@ -25,11 +25,4 @@ function setScreenHeight() {
   //   ? window.visualViewport.height
   //   : window.innerHeight
   // document.documentElement.style.setProperty('--vh', `${vh}px`)
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen()
-  } else if (document.documentElement.webkitRequestFullscreen) {
-    document.documentElement.webkitRequestFullscreen()
-  } else if (document.documentElement.msRequestFullscreen) {
-    document.documentElement.msRequestFullscreen()
-  }
 }

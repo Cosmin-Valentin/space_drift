@@ -23,10 +23,7 @@ export function generateFlash(ship, fullAnimation = false) {
       if (currentIndex < imageElements.length) {
         flash.appendChild(imageElements[currentIndex])
         currentIndex++
-        setTimeout(
-          showNextImage,
-          duration / (fullAnimation ? flashImages.length : 2)
-        )
+        setTimeout(showNextImage, duration)
       } else {
         imageElements.forEach((img) => img.remove())
         resolve()
