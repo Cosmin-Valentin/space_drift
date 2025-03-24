@@ -43,7 +43,7 @@ reStartButton.addEventListener('pointerdown', (e) => {
 function init() {
   updatePrompt(
     gamePrompt,
-    'Get most space <div class="cookie"></div> out of 100'
+    'Get most space <div class="target"></div> out of 100'
   )
   setTimeout(() => {
     spawnObstacle(gameWrapper, shipWrapper, path, handleGameEnd)

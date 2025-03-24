@@ -12,12 +12,17 @@
     <link rel="stylesheet" href="/assets/css/dahsboard-styles.css" />
     <link rel="stylesheet" href="/assets/css/game-styles.css" />
     <script src="/assets/js/orientationScript.js" defer></script>
-    <script src="/assets/js/mainScript.js" type="module" defer></script>
+    <script type="module" src="/assets/js/mainScript.js" defer></script>
+    <script type="module" src="/assets/js/obstacleScript.js" defer></script>
   </head>
   <body>
     <div class="fullscreen-rectangle">
       <div class="fullscreen-wrapper">
         <div class="top-left-banner">Your score: <span>0</span></div>
+        <div class="healthbar">
+          <img src="assets/images/env/healthbar.png" alt="healthbar" />
+          <div class="healthbar-fill"></div>
+        </div>
         <div class="top-right-start-banner">Start</div>
         <div class="top-right-restart-banner">ReStart</div>
         <div class="game-wrapper">

@@ -115,6 +115,31 @@ body {
   transform-origin: top left;
 }
 
+.healthbar {
+  position: absolute;
+  left: 5px;
+  top: 0;
+}
+
+.healthbar img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 150px;
+  z-index: 2;
+}
+
+.healthbar .healthbar-fill {
+  position: absolute;
+  left: 30px;
+  top: 65px;
+  width: 115px;
+  height: 20px;
+  background-color: #ff0000;
+  transform-origin: left;
+  z-index: 1;
+}
+
 .bottom-dashboard {
   position: absolute;
   width: 160px;
