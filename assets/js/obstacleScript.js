@@ -1,41 +1,29 @@
 import { takeDamage } from './mechanics/updateHealthbar.js'
-import { generateRandomSet } from './helperFunctions/generateRandomSet.js'
 import { generateFlash } from './mechanics/generateFlash.js'
 
-const scoreElement = document.querySelector('.top-left-banner span')
 const healBar = document.querySelector('.healthbar')
-let obstacleSpeed = 10
 let currentObstacle = null
-let score = 0
-let obstacleCount = 0
-const maxObstacle = 25
-
-const meteorites = generateRandomSet(maxObstacle / 10, maxObstacle)
 let isMeteorite = false
 let gamePaused = false
-let hits = 0
 
-export function spawnObstacle(
-  gameWrapper,
-  shipWrapper,
-  path,
-  level,
-  onGameEnd
-) {
+export function spawnObstacle(game) {
   if (currentObstacle) return
 
-  if (level > 0) {
+  if (game.level > 0) {
     healBar.style.display = 'block'
   }
 
-  if (obstacleCount >= maxObstacle + (level > 0 ? meteorites.size : 0)) {
-    onGameEnd(score)
+  if (
+    game.obstacleCount >=
+    game.maxObstacle + (game.level > 0 ? game.meteorites.size : 0)
+  ) {
+    game.onGameEnd(game.score)
     return
   }
 
   const obstacle = document.createElement('div')
 
-  if (level === 0 || !meteorites.has(obstacleCount)) {
+  if (game.level === 0 || !game.meteorites.has(game.obstacleCount)) {
     isMeteorite = false
     obstacle.classList.add('cookie')
   } else {
@@ -43,11 +31,11 @@ export function spawnObstacle(
     obstacle.classList.add('meteorite')
   }
 
-  obstacleCount++
+  game.obstacleCount++
 
-  if (obstacleCount % 5 === 0) obstacleSpeed += 1
+  if (game.obstacleCount % 5 === 0) game.obstacleSpeed += 1
 
-  const gameWidth = gameWrapper.clientWidth
+  const gameWidth = game.gameWrapper.clientWidth
   const minLeft = 120
   const maxLeft = gameWidth - 120
   const randomLeft = Math.floor(Math.random() * (maxLeft - minLeft) + minLeft)
@@ -55,62 +43,49 @@ export function spawnObstacle(
   obstacle.style.left = `${randomLeft}px`
   obstacle.style.top = '0px'
 
-  path.appendChild(obstacle)
+  game.path.appendChild(obstacle)
   currentObstacle = obstacle
-  moveObstacle(obstacle, gameWrapper, shipWrapper, path, level, onGameEnd)
+  moveObstacle(obstacle, game)
 }
 
-function moveObstacle(
-  obstacle,
-  gameWrapper,
-  shipWrapper,
-  path,
-  level,
-  onGameEnd
-) {
+function moveObstacle(obstacle, game) {
   let obstacleInterval = setInterval(async () => {
     if (gamePaused) return
 
     let currentTop = parseInt(obstacle.style.top)
 
-    if (currentTop >= gameWrapper.clientHeight) {
+    if (currentTop >= game.gameWrapper.clientHeight) {
       obstacle?.remove()
       clearInterval(obstacleInterval)
       currentObstacle = null
-      setTimeout(
-        spawnObstacle(gameWrapper, shipWrapper, path, level, onGameEnd),
-        500
-      )
+      setTimeout(spawnObstacle(game), 500)
     } else {
-      obstacle.style.top = `${currentTop + obstacleSpeed}px`
+      obstacle.style.top = `${currentTop + game.obstacleSpeed}px`
 
-      if (checkCollision(obstacle, shipWrapper)) {
+      if (checkCollision(obstacle, game.shipWrapper)) {
         if (isMeteorite) {
           gamePaused = true
           takeDamage(25)
-          hits++
-          if (hits === 4) {
+          game.hits++
+          if (game.hits === 4) {
             obstacle?.remove()
-            await generateFlash(shipWrapper, true)
+            await generateFlash(game.shipWrapper, true)
             clearInterval(obstacleInterval)
-            onGameEnd(score)
+            game.onGameEnd(game.score)
             return
           } else {
             obstacle?.remove()
-            await generateFlash(shipWrapper)
+            await generateFlash(game.shipWrapper)
             gamePaused = false
           }
         } else {
-          score++
-          scoreElement.innerText = score
+          game.score++
+          game.scoreElement.innerText = game.score
         }
         obstacle?.remove()
         clearInterval(obstacleInterval)
         currentObstacle = null
-        setTimeout(
-          spawnObstacle(gameWrapper, shipWrapper, path, level, onGameEnd),
-          500
-        )
+        setTimeout(spawnObstacle(game), 500)
       }
     }
   }, 50)

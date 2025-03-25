@@ -28,6 +28,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  line-height: 1.5;
   color: var(--white);
   font-size: 20px;
   font-weight: bold;
@@ -173,11 +175,13 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 950px) {
   .game-prompt-text {
     font-size: 12px;
   }
+}
 
+@media screen and (max-width: 768px) {
   .ship-wrapper.bank-left {
     left: 120px;
   }

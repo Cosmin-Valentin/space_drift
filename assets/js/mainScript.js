@@ -3,6 +3,8 @@ import { moveShip } from './shipDodge.js'
 import { spawnObstacle } from './obstacleScript.js'
 import { updatePrompt } from './promptScript.js'
 import { levelPrompts } from './helperFunctions/levelPrompts.js'
+import { resetObstacle } from './helperFunctions/resetObstacle.js'
+import { GameState } from './mechanics/GameState.js'
 
 const startButton = document.querySelector('.top-right-start-banner')
 const reStartButton = document.querySelector('.top-right-restart-banner')
@@ -17,6 +19,7 @@ const shipImage = document.querySelector('.ship img')
 let isProcessing = false
 let isGameStarted = false
 const eventDuration = 100
+const maxObstacle = 100
 let level = 0
 
 document.addEventListener('keydown', (e) => {
@@ -44,8 +47,20 @@ reStartButton.addEventListener('pointerdown', (e) => {
 
 function init() {
   updatePrompt(gamePrompt, levelPrompts[level])
+
+  const gameState = resetObstacle(maxObstacle)
+
+  const gameStateObj = new GameState(
+    gameWrapper,
+    shipWrapper,
+    path,
+    level,
+    handleGameEnd,
+    gameState
+  )
+
   setTimeout(() => {
-    spawnObstacle(gameWrapper, shipWrapper, path, level, handleGameEnd)
+    spawnObstacle(gameStateObj)
   }, 1000)
 }
 
@@ -85,17 +100,23 @@ function startGame() {
 }
 
 async function handleGameEnd(score) {
-  if (score < 20) {
+  const targetScore = Math.round(maxObstacle * 0.9)
+
+  if (score < targetScore) {
     await updatePrompt(
       gamePrompt,
-      `Game over! Try collecting over 90 to progress.`
+      `Game over! Try collecting over ${targetScore} to progress.`
     )
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
-  } else {
+  } else if (level < 1) {
     await updatePrompt(gamePrompt, `Level Over! Congrats!`)
     level++
     init()
+  } else {
+    await updatePrompt(gamePrompt, `Game over! You're a true space cadet!`)
+    reStartButton.style.animation =
+      '0.8s linear 0s infinite normal none running flicker'
   }
 }
 
