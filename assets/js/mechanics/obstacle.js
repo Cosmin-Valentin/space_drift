@@ -1,5 +1,5 @@
-import { takeDamage } from './mechanics/updateHealthbar.js'
-import { generateFlash } from './mechanics/generateFlash.js'
+import { takeDamage } from '../ui/updateHealthbar.js'
+import { generateFlash } from './generateFlash.js'
 
 const healthBar = document.querySelector('.healthbar')
 let currentObstacle = null

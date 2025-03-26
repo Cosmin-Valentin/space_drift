@@ -1,4 +1,4 @@
-import { generateRandomSet } from '../helperFunctions/generateRandomSet.js'
+import { generateRandomSet } from '../helper/generateRandomSet.js'
 
 export class GameState {
   constructor(gameWrapper, shipWrapper, path, level, onGameEnd, maxObstacle) {
