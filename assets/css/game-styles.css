@@ -23,6 +23,7 @@
   justify-content: center;
   text-transform: uppercase;
   pointer-events: none;
+  z-index: 2;
 }
 
 .game-prompt-text {

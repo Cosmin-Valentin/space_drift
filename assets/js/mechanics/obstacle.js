@@ -31,10 +31,10 @@ export function spawnObstacle(game) {
     obstacle.classList.add('meteorite')
   }
 
-  // poate incrementam doar pentru puncte
   game.obstacleCount++
 
-  if (game.obstacleCount % 5 === 0) game.obstacleSpeed += 1
+  if ((game.obstacleCount - game.meteorites.size) % 5 === 0)
+    game.obstacleSpeed += 1
 
   const gameWidth = game.gameWrapper.clientWidth
   const minLeft = 120
