@@ -3,8 +3,8 @@ import { moveShip } from './shipDodge.js'
 import { spawnObstacle } from './obstacleScript.js'
 import { updatePrompt } from './promptScript.js'
 import { levelPrompts } from './helperFunctions/levelPrompts.js'
-import { resetObstacle } from './helperFunctions/resetObstacle.js'
 import { GameState } from './mechanics/GameState.js'
+import { countDown } from './helperFunctions/countDown.js'
 
 const startButton = document.querySelector('.top-right-start-banner')
 const reStartButton = document.querySelector('.top-right-restart-banner')
@@ -19,7 +19,7 @@ const shipImage = document.querySelector('.ship img')
 let isProcessing = false
 let isGameStarted = false
 const eventDuration = 100
-const maxObstacle = 100
+const maxObstacle = 10
 let level = 0
 
 document.addEventListener('keydown', (e) => {
@@ -45,23 +45,20 @@ reStartButton.addEventListener('pointerdown', (e) => {
   setTimeout(() => window.location.reload(), 200)
 })
 
-function init() {
-  updatePrompt(gamePrompt, levelPrompts[level])
+async function init() {
+  await updatePrompt(gamePrompt, levelPrompts[level])
+  await countDown()
 
-  const gameState = resetObstacle(maxObstacle)
-
-  const gameStateObj = new GameState(
+  const gameState = new GameState(
     gameWrapper,
     shipWrapper,
     path,
     level,
     handleGameEnd,
-    gameState
+    maxObstacle
   )
 
-  setTimeout(() => {
-    spawnObstacle(gameStateObj)
-  }, 1000)
+  spawnObstacle(gameState)
 }
 
 function handleDirection(direction) {

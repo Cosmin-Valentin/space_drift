@@ -1,7 +1,7 @@
 import { takeDamage } from './mechanics/updateHealthbar.js'
 import { generateFlash } from './mechanics/generateFlash.js'
 
-const healBar = document.querySelector('.healthbar')
+const healthBar = document.querySelector('.healthbar')
 let currentObstacle = null
 let isMeteorite = false
 let gamePaused = false
@@ -10,7 +10,7 @@ export function spawnObstacle(game) {
   if (currentObstacle) return
 
   if (game.level > 0) {
-    healBar.style.display = 'block'
+    healthBar.style.display = 'block'
   }
 
   if (
@@ -31,6 +31,7 @@ export function spawnObstacle(game) {
     obstacle.classList.add('meteorite')
   }
 
+  // poate incrementam doar pentru puncte
   game.obstacleCount++
 
   if (game.obstacleCount % 5 === 0) game.obstacleSpeed += 1

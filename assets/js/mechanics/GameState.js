@@ -1,16 +1,20 @@
+import { generateRandomSet } from '../helperFunctions/generateRandomSet.js'
+
 export class GameState {
-  constructor(gameWrapper, shipWrapper, path, level, onGameEnd, gameState) {
+  constructor(gameWrapper, shipWrapper, path, level, onGameEnd, maxObstacle) {
     this.gameWrapper = gameWrapper
     this.shipWrapper = shipWrapper
     this.path = path
     this.level = level
     this.onGameEnd = onGameEnd
-    this.obstacleCount = gameState.obstacleCount
-    this.obstacleSpeed = gameState.obstacleSpeed
-    this.score = gameState.score
-    this.hits = gameState.hits
-    this.meteorites = gameState.meteorites
-    this.maxObstacle = gameState.maxObstacle
-    this.scoreElement = gameState.scoreElement
+    this.maxObstacle = maxObstacle
+    this.obstacleCount = 0
+    this.obstacleSpeed = 10
+    this.score = 0
+    this.hits = 0
+    this.meteorites = generateRandomSet(maxObstacle / 10, maxObstacle)
+    this.scoreElement = document.querySelector('.top-left-banner span')
+
+    this.scoreElement.innerText = this.score
   }
 }

@@ -11,7 +11,8 @@
   border-radius: 10px;
 }
 
-.game-prompt {
+.game-prompt,
+.count-down {
   position: absolute;
   top: 20%;
   left: 50%;
@@ -54,6 +55,34 @@
   background-repeat: no-repeat;
   background-position: center;
   margin: 0 15px;
+}
+
+.count-down {
+  display: none;
+}
+
+.count-down-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--white);
+  font-size: 40px;
+  font-weight: bold;
+  font-family: 'Press Start 2P', sans-serif;
+}
+
+.reduce-animation {
+  animation: reduce 500ms ease-in forwards;
+}
+
+@keyframes reduce {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.3);
+  }
 }
 
 .ship-wrapper {
@@ -178,6 +207,10 @@
 @media screen and (max-width: 950px) {
   .game-prompt-text {
     font-size: 12px;
+  }
+
+  .count-down-text {
+    font-size: 30px;
   }
 }
 
