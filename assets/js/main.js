@@ -1,6 +1,7 @@
 import { changeShip } from './ui/shipSelect.js'
 import { moveShip } from './mechanics/shipDodge.js'
 import { spawnObstacle } from './mechanics/obstacle.js'
+import { spawnObstacleOpposite } from './mechanics/obstacleOpposite.js'
 import { updatePrompt } from './ui/prompt.js'
 import { levelPrompts } from './ui/levelPrompts.js'
 import { GameState } from './core/GameState.js'
@@ -67,7 +68,7 @@ async function init() {
     maxObstacle
   )
 
-  spawnObstacle(gameState)
+  level < 2 ? spawnObstacle(gameState) : spawnObstacleOpposite(gameState)
 }
 
 function handleDirection(direction) {
@@ -159,7 +160,7 @@ async function handleGameEnd(score) {
     )
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
-  } else if (level < 1) {
+  } else if (level < 2) {
     await updatePrompt(gamePrompt, `Level Over! Congrats!`)
     level++
     init()
