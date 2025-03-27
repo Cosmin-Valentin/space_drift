@@ -96,34 +96,55 @@ function handleTouch(e, direction) {
 
 async function startGame() {
   if (!isDifficultySet) {
-    if (!isDifficultySettingInProgress) {
-      isDifficultySettingInProgress = true
-      difficulty = parseInt(await setDifficulty(gamePrompt))
-      isDifficultySet = true
-      isDifficultySettingInProgress = false
-      startButton.style.opacity = 0.5
-    } else {
-      gamePrompt
-        .querySelector('.difficulty-level:first-child')
-        .classList.add('active')
-      difficulty = 0
-      setTimeout(() => {
-        isDifficultySettingInProgress = false
-        startButton.style.opacity = 0.5
-        gamePrompt.querySelector('.difficulty-levels').remove()
-      }, 200)
-    }
-  } else {
-    startButton.style.opacity = 0.5
+    await setGameDifficulty()
   }
 
+  prepareGameStart()
+}
+
+async function setGameDifficulty() {
+  if (!isDifficultySettingInProgress) {
+    isDifficultySettingInProgress = true
+    difficulty = parseInt(await setDifficulty(gamePrompt))
+    isDifficultySet = true
+    isDifficultySettingInProgress = false
+    startButton.style.opacity = 0.5
+  } else {
+    handleActiveDifficultySelection()
+  }
+}
+
+function handleActiveDifficultySelection() {
+  const activeDifficulty = gamePrompt.querySelector('.active')
+
+  if (activeDifficulty) {
+    difficulty = parseInt(activeDifficulty.dataset.level)
+  } else {
+    gamePrompt
+      .querySelector('.difficulty-level:first-child')
+      .classList.add('active')
+    difficulty = 0
+  }
+
+  setTimeout(() => {
+    isDifficultySettingInProgress = false
+    startButton.style.opacity = 0.5
+    gamePrompt.querySelector('.difficulty-levels').remove()
+  }, 200)
+}
+
+function prepareGameStart() {
+  startButton.style.opacity = 0.5
   setTimeout(() => {
     shipWrapper.style.transition = 'bottom 1s ease-in'
     shipWrapper.classList.remove('choose-ship')
     startButton.style.display = 'none'
     reStartButton.style.display = 'flex'
-    maxObstacle = difficulty === 0 ? 60 : difficulty === 1 ? 80 : 100
+    gamePrompt.querySelector('.game-prompt-text').classList.remove('animated')
+
+    maxObstacle ??= difficulty === 0 ? 60 : difficulty === 1 ? 80 : 100
     isGameStarted = true
+
     init()
   }, 200)
 }

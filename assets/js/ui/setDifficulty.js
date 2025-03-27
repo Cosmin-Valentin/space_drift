@@ -1,3 +1,5 @@
+import { toggleDifficulty } from './toggleDifficulty.js'
+
 export function setDifficulty(prompt) {
   return new Promise((resolve) => {
     const levels = document.createElement('div')
@@ -12,6 +14,8 @@ export function setDifficulty(prompt) {
     prompt.querySelector('.game-prompt-text').innerHTML =
       'Select difficulty level'
     prompt.appendChild(levels)
+
+    toggleDifficulty()
 
     levels.addEventListener('click', (e) => {
       const level = e.target.dataset.level

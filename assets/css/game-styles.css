@@ -36,6 +36,9 @@
   font-size: 20px;
   font-weight: bold;
   font-family: 'Press Start 2P', sans-serif;
+}
+
+.game-prompt-text.animated {
   animation: 0.8s linear 0s infinite normal none running flicker;
 }
 
@@ -91,8 +94,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 5%;
-  width: 250px;
+  margin-top: 50px;
+  width: 350px;
   border: 2px solid var(--background-color);
   background-color: rgba(0, 0, 0, 0.5);
   box-sizing: border-box;
@@ -103,20 +106,19 @@
   font-size: 16px;
   font-weight: bold;
   font-family: 'Press Start 2P', sans-serif;
-  padding: 10px 0;
+  padding: 15px 0;
   width: 100%;
   text-align: center;
   box-sizing: border-box;
   cursor: pointer;
 }
 
-.difficulty-level:hover,
 .difficulty-level.active {
   color: var(--white);
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.6);
   border-top: 1px solid var(--background-color);
   border-bottom: 1px solid var(--background-color);
-  padding: 9px 0;
+  padding: 14px 0;
 }
 
 .ship-wrapper {
