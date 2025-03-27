@@ -5,6 +5,7 @@ import { updatePrompt } from './ui/prompt.js'
 import { levelPrompts } from './ui/levelPrompts.js'
 import { GameState } from './core/GameState.js'
 import { countDown } from './ui/countDown.js'
+import { setDifficulty } from './ui/setDifficulty.js'
 
 const startButton = document.querySelector('.top-right-start-banner')
 const reStartButton = document.querySelector('.top-right-restart-banner')
@@ -18,8 +19,11 @@ const shipImage = document.querySelector('.ship img')
 
 let isProcessing = false
 let isGameStarted = false
+let isDifficultySet = false
+let isDifficultySettingInProgress = false
+let difficulty = null
 const eventDuration = 100
-const maxObstacle = 100
+let maxObstacle = null
 let level = 0
 
 document.addEventListener('keydown', (e) => {
@@ -46,7 +50,12 @@ reStartButton.addEventListener('pointerdown', (e) => {
 })
 
 async function init() {
-  await updatePrompt(gamePrompt, levelPrompts[level])
+  await updatePrompt(
+    gamePrompt,
+    level === 0
+      ? 'Get most space <div class="target"></div> out of ' + maxObstacle
+      : levelPrompts[level]
+  )
   await countDown()
 
   const gameState = new GameState(
@@ -62,6 +71,7 @@ async function init() {
 }
 
 function handleDirection(direction) {
+  if (isDifficultySettingInProgress) return
   isProcessing = true
   document
     .querySelector(`.bottom-dashboard.bottom-${direction}`)
@@ -84,13 +94,35 @@ function handleTouch(e, direction) {
   e.preventDefault()
 }
 
-function startGame() {
-  startButton.style.opacity = 0.5
+async function startGame() {
+  if (!isDifficultySet) {
+    if (!isDifficultySettingInProgress) {
+      isDifficultySettingInProgress = true
+      difficulty = parseInt(await setDifficulty(gamePrompt))
+      isDifficultySet = true
+      isDifficultySettingInProgress = false
+      startButton.style.opacity = 0.5
+    } else {
+      gamePrompt
+        .querySelector('.difficulty-level:first-child')
+        .classList.add('active')
+      difficulty = 0
+      setTimeout(() => {
+        isDifficultySettingInProgress = false
+        startButton.style.opacity = 0.5
+        gamePrompt.querySelector('.difficulty-levels').remove()
+      }, 200)
+    }
+  } else {
+    startButton.style.opacity = 0.5
+  }
+
   setTimeout(() => {
     shipWrapper.style.transition = 'bottom 1s ease-in'
     shipWrapper.classList.remove('choose-ship')
     startButton.style.display = 'none'
     reStartButton.style.display = 'flex'
+    maxObstacle = difficulty === 0 ? 60 : difficulty === 1 ? 80 : 100
     isGameStarted = true
     init()
   }, 200)

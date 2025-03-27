@@ -19,10 +19,10 @@
   width: 100%;
   transform: translateX(-50%);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  pointer-events: none;
   z-index: 2;
 }
 
@@ -84,6 +84,39 @@
   100% {
     transform: scale(0.3);
   }
+}
+
+.difficulty-levels {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+  width: 250px;
+  border: 2px solid var(--background-color);
+  background-color: rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+
+.difficulty-level {
+  color: #d3d3d3;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Press Start 2P', sans-serif;
+  padding: 10px 0;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.difficulty-level:hover,
+.difficulty-level.active {
+  color: var(--white);
+  background-color: rgba(0, 0, 0, 0.8);
+  border-top: 1px solid var(--background-color);
+  border-bottom: 1px solid var(--background-color);
+  padding: 9px 0;
 }
 
 .ship-wrapper {
@@ -208,6 +241,10 @@
 @media screen and (max-width: 950px) {
   .game-prompt-text {
     font-size: 12px;
+  }
+
+  .difficulty-level {
+    font-size: 10px;
   }
 
   .count-down-text {
