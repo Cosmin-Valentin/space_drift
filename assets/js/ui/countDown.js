@@ -1,11 +1,11 @@
-export function countDown() {
+export function countDown(level) {
   return new Promise((resolve) => {
     const countDown = document.querySelector('.count-down')
     const countDownText = document.querySelector('.count-down-text')
     const numbers = ['3', '2', '1', 'GO!']
     let i = 0
 
-    countDownText.textContent = 'Ready?'
+    countDownText.textContent = level === 0 ? 'Ready?' : 'Level ' + ++level
     countDown.style.display = 'flex'
 
     setTimeout(() => {

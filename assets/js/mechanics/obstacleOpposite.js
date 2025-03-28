@@ -54,7 +54,7 @@ function moveObstacle(obstacle, game) {
       obstacle?.remove()
       clearInterval(obstacleInterval)
       currentObstacle = null
-      setTimeout(spawnObstacle(game), 500)
+      setTimeout(spawnObstacleOpposite(game), 500)
     } else {
       obstacle.style.top = `${currentTop + game.obstacleSpeed}px`
 
@@ -81,7 +81,7 @@ function moveObstacle(obstacle, game) {
         obstacle?.remove()
         clearInterval(obstacleInterval)
         currentObstacle = null
-        setTimeout(spawnObstacle(game), 500)
+        setTimeout(spawnObstacleOpposite(game), 500)
       }
     }
   }, 50)

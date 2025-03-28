@@ -25,7 +25,7 @@ let isDifficultySettingInProgress = false
 let difficulty = null
 const eventDuration = 100
 let maxObstacle = null
-let level = 0
+let level = 2
 
 document.addEventListener('keydown', (e) => {
   if (isProcessing) return
@@ -57,7 +57,7 @@ async function init() {
       ? 'Get most space <div class="target"></div> out of ' + maxObstacle
       : levelPrompts[level]
   )
-  await countDown()
+  await countDown(level)
 
   const gameState = new GameState(
     gameWrapper,
