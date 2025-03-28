@@ -1,24 +1,40 @@
-import { takeDamage } from '../ui/updateHealthbar.js'
 import { generateFlash } from './generateFlash.js'
+import { generateRandomSet } from '../helper/generateRandomSet.js'
+import { resetHealth, increaseHealth } from '../ui/updateHealthbar.js'
 
 const healthBar = document.querySelector('.healthbar')
 let currentObstacle = null
 let isMeteorite = false
 let gamePaused = false
+let score = null
+let targetScore = null
+let meteorites = null
 
 export function spawnObstacleOpposite(game) {
   if (currentObstacle) return
 
-  healthBar.style.display = 'block'
+  if (game.obstacleCount === 0) {
+    resetHealth()
+    healthBar.querySelector('.healthbar-fill').style.transform = 'scaleX(0)'
+    healthBar.style.display = 'block'
+  }
 
-  if (game.obstacleCount >= game.maxObstacle + game.meteorites.size) {
-    game.onGameEnd(game.score)
+  if (score === null) {
+    score = game.maxObstacle === 60 ? 100 : game.maxObstacle === 100 ? 60 : 80
+    game.scoreElement.innerText = score
+
+    meteorites = generateRandomSet(score / 5, score)
+    targetScore = Math.round(score * 0.9)
+  }
+
+  if (score == 0) {
+    game.onGameEnd(targetScore, true)
     return
   }
 
   const obstacle = document.createElement('div')
 
-  if (!game.meteorites.has(game.obstacleCount)) {
+  if (!meteorites.has(game.obstacleCount)) {
     isMeteorite = false
     obstacle.classList.add('cookie')
   } else {
@@ -28,8 +44,7 @@ export function spawnObstacleOpposite(game) {
 
   game.obstacleCount++
 
-  if ((game.obstacleCount - game.meteorites.size) % 5 === 0)
-    game.obstacleSpeed += 1
+  if ((game.obstacleCount - meteorites.size) % 5 === 0) game.obstacleSpeed += 1
 
   const gameWidth = game.gameWrapper.clientWidth
   const minLeft = 120
@@ -61,13 +76,17 @@ function moveObstacle(obstacle, game) {
       if (checkCollision(obstacle, game.shipWrapper)) {
         if (isMeteorite) {
           gamePaused = true
-          takeDamage(25)
+          increaseHealth(25)
           game.hits++
           if (game.hits === 4) {
             obstacle?.remove()
             await generateFlash(game.shipWrapper, true)
             clearInterval(obstacleInterval)
-            game.onGameEnd(game.score)
+            if (score < targetScore) {
+              game.onGameEnd(targetScore, true)
+            } else {
+              game.onGameEnd(score)
+            }
             return
           } else {
             obstacle?.remove()
@@ -75,8 +94,8 @@ function moveObstacle(obstacle, game) {
             gamePaused = false
           }
         } else {
-          game.score++
-          game.scoreElement.innerText = game.score
+          score--
+          game.scoreElement.innerText = score
         }
         obstacle?.remove()
         clearInterval(obstacleInterval)

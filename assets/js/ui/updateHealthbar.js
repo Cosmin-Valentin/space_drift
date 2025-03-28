@@ -1,10 +1,29 @@
 const healthBarFill = document.querySelector('.healthbar-fill')
-let currentHealth = 100
+let currentHealth = null
+
+export function resetHealth() {
+  currentHealth = null
+}
 
 export function takeDamage(damage) {
+  if (currentHealth === null) {
+    currentHealth = 100
+  }
   currentHealth -= damage
   if (currentHealth <= 0) {
     currentHealth = 0
+  }
+
+  updateHealthBar(currentHealth)
+}
+
+export function increaseHealth(health) {
+  if (currentHealth === null) {
+    currentHealth = 0
+  }
+  currentHealth += health
+  if (currentHealth >= 100) {
+    currentHealth = 100
   }
 
   updateHealthBar(currentHealth)

@@ -1,4 +1,4 @@
-import { takeDamage } from '../ui/updateHealthbar.js'
+import { resetHealth, takeDamage } from '../ui/updateHealthbar.js'
 import { generateFlash } from './generateFlash.js'
 
 const healthBar = document.querySelector('.healthbar')
@@ -10,6 +10,9 @@ export function spawnObstacle(game) {
   if (currentObstacle) return
 
   if (game.level > 0) {
+    if (game.obstacleCount === 0) {
+      resetHealth()
+    }
     healthBar.style.display = 'block'
   }
 
