@@ -5,10 +5,11 @@
   height: 100%;
   width: 100%;
   background-image: url('../images/background/space.jpg');
-  background-size: cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center center;
   border-radius: 10px;
+  transition: background-image 2s ease-in;
 }
 
 .game-prompt,
@@ -159,6 +160,71 @@
 .ship-wrapper.bank-right .ship-img {
   transform: rotate3d(0, 1, 0, 15deg);
   filter: drop-shadow(25px 10px 5px rgba(0, 0, 0, 0.5));
+}
+
+.ship-travel {
+  position: absolute;
+  top: 50%;
+  left: 80%;
+  animation-name: travelRightToLeftFadeOut;
+  animation-duration: 6s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes travelRightToLeftFadeOut {
+  0% {
+    left: 100%;
+    opacity: 0;
+  }
+  20% {
+    left: 80%;
+    opacity: 1;
+  }
+  80% {
+    left: 20%;
+    opacity: 1;
+  }
+  100% {
+    left: 0%;
+    opacity: 0;
+  }
+
+  /* 0% {
+    left: 50%;
+  }
+  100% {
+    left: 50%;
+  } */
+}
+
+.ship-travel img {
+  position: absolute;
+  width: 20vh;
+  height: 30vh;
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.ship-travel-flame {
+  position: absolute;
+  left: 20vh;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  width: 15vh;
+  height: 5vh;
+  border-radius: 50%;
+  animation: flicker 0.5s infinite alternate;
+  background: linear-gradient(to left, blue, yellow);
+  filter: blur(5px);
+}
+
+@keyframes flicker {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .path {

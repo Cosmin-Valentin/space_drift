@@ -1,4 +1,5 @@
 import { GameState } from './core/GameState.js'
+import { travelToNextLevel } from './helper/travelToNextLevel.js'
 import { initializeEventListeners } from './mechanics/eventListeners.js'
 import { moveShip } from './mechanics/shipDodge.js'
 import { spawnObstacle } from './mechanics/obstacle.js'
@@ -11,10 +12,10 @@ import { setDifficulty } from './ui/setDifficulty.js'
 
 export const startButton = document.querySelector('.top-right-start-banner')
 export const reStartButton = document.querySelector('.top-right-restart-banner')
+export const gameWrapper = document.querySelector('.game-wrapper')
 export let isProcessing = false
 export let isGameStarted = false
 
-const gameWrapper = document.querySelector('.game-wrapper')
 const gamePrompt = document.querySelector('.game-prompt')
 const path = document.querySelector('.path')
 const shipWrapper = document.querySelector('.ship-wrapper')
@@ -24,11 +25,14 @@ let isDifficultySet = false
 let isDifficultySettingInProgress = false
 let difficulty = null
 let maxObstacle = null
-let level = 0
+let level = 1
 
 initializeEventListeners()
 
 async function init() {
+  if (level > 0) {
+    await travelToNextLevel()
+  }
   await updatePrompt(
     gamePrompt,
     level === 0
