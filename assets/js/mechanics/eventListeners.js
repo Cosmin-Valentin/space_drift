@@ -10,11 +10,8 @@ import {
 } from '../main.js'
 
 let keydownListener
-let pointerDownLeftListener
-let pointerDownRightListener
-let pointerUpListener
-let touchEndListener
-let touchCancelListener
+let leftButtonListener
+let rightButtonListener
 let startButtonListener
 let restartListener
 
@@ -23,26 +20,15 @@ const buttonRight = document.querySelector('.bottom-dashboard.bottom-right')
 
 export function initializeEventListeners(invertControls = false) {
   if (keydownListener) document.removeEventListener('keydown', keydownListener)
-  if (pointerDownLeftListener)
-    buttonLeft.removeEventListener('pointerdown', pointerDownLeftListener)
-  if (pointerDownRightListener)
-    buttonRight.removeEventListener('pointerdown', pointerDownRightListener)
-  if (pointerUpListener) {
-    buttonLeft.removeEventListener('pointerup', pointerUpListener)
-    buttonRight.removeEventListener('pointerup', pointerUpListener)
-  }
-  if (touchEndListener) {
-    buttonLeft.removeEventListener('touchend', touchEndListener)
-    buttonRight.removeEventListener('touchend', touchEndListener)
-  }
-  if (touchCancelListener) {
-    buttonLeft.removeEventListener('touchcancel', touchCancelListener)
-    buttonRight.removeEventListener('touchcancel', touchCancelListener)
-  }
+
+  if (leftButtonListener)
+    buttonLeft.removeEventListener('click', leftButtonListener)
+  if (rightButtonListener)
+    buttonRight.removeEventListener('click', rightButtonListener)
   if (startButtonListener)
-    startButton.removeEventListener('pointerdown', startButtonListener)
+    startButton.removeEventListener('click', startButtonListener)
   if (restartListener)
-    reStartButton.removeEventListener('pointerdown', restartListener)
+    reStartButton.removeEventListener('click', restartListener)
 
   keydownListener = (e) => {
     if (isProcessing) return
@@ -55,13 +41,14 @@ export function initializeEventListeners(invertControls = false) {
     if (['Enter', ' '].includes(e.key) && !isGameStarted) startGame()
   }
 
-  pointerDownLeftListener = (e) =>
-    handleTouch(e, invertControls ? 'right' : 'left')
-  pointerDownRightListener = (e) =>
-    handleTouch(e, invertControls ? 'left' : 'right')
-  pointerUpListener = removePressedClass
-  touchEndListener = removePressedClass
-  touchCancelListener = removePressedClass
+  leftButtonListener = () => {
+    handleTouch(invertControls ? 'right' : 'left')
+    removePressedClass()
+  }
+  rightButtonListener = () => {
+    handleTouch(invertControls ? 'left' : 'right')
+    removePressedClass()
+  }
   startButtonListener = () => startGame()
   restartListener = (e) => {
     e.target.style.opacity = 0.5
@@ -69,14 +56,8 @@ export function initializeEventListeners(invertControls = false) {
   }
 
   document.addEventListener('keydown', keydownListener)
-  buttonLeft.addEventListener('pointerdown', pointerDownLeftListener)
-  buttonRight.addEventListener('pointerdown', pointerDownRightListener)
-  buttonLeft.addEventListener('pointerup', pointerUpListener)
-  buttonRight.addEventListener('pointerup', pointerUpListener)
-  buttonLeft.addEventListener('touchend', touchEndListener, { passive: true })
-  buttonRight.addEventListener('touchend', touchEndListener, { passive: true })
-  buttonLeft.addEventListener('touchcancel', touchCancelListener)
-  buttonRight.addEventListener('touchcancel', touchCancelListener)
-  startButton.addEventListener('pointerdown', startButtonListener)
-  reStartButton.addEventListener('pointerdown', restartListener)
+  buttonLeft.addEventListener('click', leftButtonListener)
+  buttonRight.addEventListener('click', rightButtonListener)
+  startButton.addEventListener('click', startButtonListener)
+  reStartButton.addEventListener('click', restartListener)
 }

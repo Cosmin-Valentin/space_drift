@@ -44,6 +44,7 @@ function hideElements() {
   startButton.style.opacity = '0'
   reStartButton.style.opacity = '0'
   document.querySelector('.top-left-banner').style.opacity = '0'
+  document.querySelector('.healthbar').style.opacity = '0'
   gameWrapper.querySelector('.game-inner').style.opacity = '0'
   document.querySelectorAll('.bottom-dashboard').forEach((el) => {
     el.style.opacity = '0'
@@ -55,6 +56,7 @@ function showElements() {
     el.style.removeProperty('opacity')
   })
   document.querySelector('.top-left-banner').style.removeProperty('opacity')
+  document.querySelector('.healthbar').style.removeProperty('opacity')
   gameWrapper.querySelector('.game-inner').style.removeProperty('opacity')
   startButton.style.removeProperty('opacity')
   reStartButton.style.removeProperty('opacity')

@@ -25,7 +25,7 @@ let isDifficultySet = false
 let isDifficultySettingInProgress = false
 let difficulty = null
 let maxObstacle = null
-let level = 0
+let level = 1
 
 initializeEventListeners()
 
@@ -105,7 +105,7 @@ function prepareGameStart() {
 async function handleGameEnd(score, isInverted = false) {
   const targetScore = Math.round(maxObstacle * 0.9)
 
-  if (!level === 2 && score < targetScore) {
+  if (level !== 2 && score < targetScore) {
     await updatePrompt(
       gamePrompt,
       `Game over! Try collecting over ${targetScore} to progress.`
