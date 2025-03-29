@@ -25,7 +25,7 @@ let isDifficultySet = false
 let isDifficultySettingInProgress = false
 let difficulty = null
 let maxObstacle = null
-let level = 2
+let level = 1
 
 initializeEventListeners()
 
@@ -52,7 +52,7 @@ async function init() {
 
   level < 2
     ? spawnObstacle(gameState)
-    : (spawnObstacleOpposite(gameState), initializeEventListeners(true))
+    : (spawnObstacleOpposite(gameState, true), initializeEventListeners(true))
 }
 
 async function setGameDifficulty() {
@@ -112,6 +112,7 @@ async function handleGameEnd(score, isInverted = false) {
     )
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
+    restartLevel()
   } else if (level < 2) {
     await updatePrompt(gamePrompt, `Level Over! Congrats!`)
     level++
@@ -123,11 +124,32 @@ async function handleGameEnd(score, isInverted = false) {
     )
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
+    restartLevel()
   } else {
     await updatePrompt(gamePrompt, `Game over! You're a true space cadet!`)
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
   }
+}
+
+function restartLevel() {
+  const leftRestartBtn = document.querySelector('.top-left-banner')
+
+  if (!leftRestartBtn) return
+
+  leftRestartBtn.style.animation = '0.8s linear infinite flicker'
+  leftRestartBtn.textContent = 'Restart level?'
+
+  const handleClick = () => {
+    reStartButton.style.removeProperty('animation')
+    leftRestartBtn.style.removeProperty('animation')
+    leftRestartBtn.innerHTML = 'Your score: <span>0</span>'
+    init()
+    leftRestartBtn.removeEventListener('click', handleClick)
+  }
+
+  leftRestartBtn.removeEventListener('click', handleClick)
+  leftRestartBtn.addEventListener('click', handleClick)
 }
 
 export function handleDirection(direction) {
