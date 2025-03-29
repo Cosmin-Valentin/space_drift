@@ -94,6 +94,14 @@ function moveObstacle(obstacle, game) {
             gamePaused = false
           }
         } else {
+          game.shipWrapper
+            .querySelector('.ship-img')
+            .classList.toggle('not-edible')
+          setTimeout(() => {
+            game.shipWrapper
+              .querySelector('.ship-img')
+              .classList.toggle('not-edible')
+          }, 500)
           score--
           game.scoreElement.innerText = score
         }

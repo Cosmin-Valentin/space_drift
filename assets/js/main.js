@@ -25,7 +25,7 @@ let isDifficultySet = false
 let isDifficultySettingInProgress = false
 let difficulty = null
 let maxObstacle = null
-let level = 1
+let level = 2
 
 initializeEventListeners()
 

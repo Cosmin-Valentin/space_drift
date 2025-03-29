@@ -306,6 +306,21 @@
   }
 }
 
+.not-edible {
+  animation: notEdible 500ms ease-in-out infinite;
+}
+
+@keyframes notEdible {
+  0% {
+    opacity: 1;
+    transform: translateX(10px);
+  }
+  100% {
+    opacity: 0.3;
+    transform: translateX(-10px);
+  }
+}
+
 @media screen and (max-width: 950px) {
   .game-prompt-text {
     font-size: 12px;
