@@ -1,4 +1,4 @@
-import { generateFlash } from './generateFlash.js'
+import { healthSparkle } from './healthSparkle.js'
 import { generateRandomSet } from '../helper/generateRandomSet.js'
 import { resetHealth, increaseHealth } from '../ui/updateHealthbar.js'
 
@@ -80,7 +80,7 @@ function moveObstacle(obstacle, game) {
           game.hits++
           if (game.hits === 4) {
             obstacle?.remove()
-            await generateFlash(game.shipWrapper, true)
+            await healthSparkle(game.shipWrapper, true)
             clearInterval(obstacleInterval)
             if (score < targetScore) {
               game.onGameEnd(targetScore, true)
@@ -90,7 +90,7 @@ function moveObstacle(obstacle, game) {
             return
           } else {
             obstacle?.remove()
-            await generateFlash(game.shipWrapper)
+            await healthSparkle(game.shipWrapper)
             gamePaused = false
           }
         } else {

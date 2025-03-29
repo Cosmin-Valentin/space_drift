@@ -24,7 +24,7 @@ let isDifficultySet = false
 let isDifficultySettingInProgress = false
 let difficulty = null
 let maxObstacle = null
-let level = 2
+let level = 0
 
 initializeEventListeners()
 
@@ -46,7 +46,9 @@ async function init() {
     maxObstacle
   )
 
-  level < 2 ? spawnObstacle(gameState) : spawnObstacleOpposite(gameState)
+  level < 2
+    ? spawnObstacle(gameState)
+    : (spawnObstacleOpposite(gameState), initializeEventListeners(true))
 }
 
 async function setGameDifficulty() {
@@ -109,7 +111,6 @@ async function handleGameEnd(score, isInverted = false) {
   } else if (level < 2) {
     await updatePrompt(gamePrompt, `Level Over! Congrats!`)
     level++
-    if (level === 2) initializeEventListeners(true)
     init()
   } else if (level === 2 && isInverted) {
     await updatePrompt(

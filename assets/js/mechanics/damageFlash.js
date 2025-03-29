@@ -1,4 +1,4 @@
-export function generateFlash(ship, fullAnimation = false) {
+export function damageFlash(ship, fullAnimation = false) {
   return new Promise((resolve) => {
     const duration = 500
     const flashImages = [

@@ -1,5 +1,5 @@
 import { resetHealth, takeDamage } from '../ui/updateHealthbar.js'
-import { generateFlash } from './generateFlash.js'
+import { damageFlash } from './damageFlash.js'
 
 const healthBar = document.querySelector('.healthbar')
 let currentObstacle = null
@@ -73,13 +73,13 @@ function moveObstacle(obstacle, game) {
           game.hits++
           if (game.hits === 4) {
             obstacle?.remove()
-            await generateFlash(game.shipWrapper, true)
+            await damageFlash(game.shipWrapper, true)
             clearInterval(obstacleInterval)
             game.onGameEnd(game.score)
             return
           } else {
             obstacle?.remove()
-            await generateFlash(game.shipWrapper)
+            await damageFlash(game.shipWrapper)
             gamePaused = false
           }
         } else {

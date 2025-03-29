@@ -15,6 +15,7 @@ let pointerDownRightListener
 let pointerUpListener
 let touchEndListener
 let touchCancelListener
+let startButtonListener
 let restartListener
 
 const buttonLeft = document.querySelector('.bottom-dashboard.bottom-left')
@@ -38,6 +39,8 @@ export function initializeEventListeners(invertControls = false) {
     buttonLeft.removeEventListener('touchcancel', touchCancelListener)
     buttonRight.removeEventListener('touchcancel', touchCancelListener)
   }
+  if (startButtonListener)
+    startButton.removeEventListener('pointerdown', startButtonListener)
   if (restartListener)
     reStartButton.removeEventListener('pointerdown', restartListener)
 
@@ -59,6 +62,7 @@ export function initializeEventListeners(invertControls = false) {
   pointerUpListener = removePressedClass
   touchEndListener = removePressedClass
   touchCancelListener = removePressedClass
+  startButtonListener = () => startGame()
   restartListener = (e) => {
     e.target.style.opacity = 0.5
     setTimeout(() => window.location.reload(), 200)
@@ -73,5 +77,6 @@ export function initializeEventListeners(invertControls = false) {
   buttonRight.addEventListener('touchend', touchEndListener, { passive: true })
   buttonLeft.addEventListener('touchcancel', touchCancelListener)
   buttonRight.addEventListener('touchcancel', touchCancelListener)
+  startButton.addEventListener('pointerdown', startButtonListener)
   reStartButton.addEventListener('pointerdown', restartListener)
 }
