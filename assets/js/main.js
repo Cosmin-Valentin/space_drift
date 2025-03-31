@@ -7,6 +7,7 @@ import { spawnObstacleOpposite } from './mechanics/obstacleOpposite.js'
 import { countDown } from './ui/countDown.js'
 import { levelPrompts } from './ui/levelPrompts.js'
 import { updatePrompt } from './ui/prompt.js'
+import { restartLevel } from './ui/restartLevel.js'
 import { changeShip } from './ui/shipSelect.js'
 import { setDifficulty } from './ui/setDifficulty.js'
 
@@ -25,35 +26,9 @@ let isDifficultySet = false
 let isDifficultySettingInProgress = false
 let difficulty = null
 let maxObstacle = null
-let level = 1
+let level = 0
 
 initializeEventListeners()
-
-async function init() {
-  if (level > 0) {
-    await travelToNextLevel()
-  }
-  await updatePrompt(
-    gamePrompt,
-    level === 0
-      ? 'Get most space <div class="target"></div> out of ' + maxObstacle
-      : levelPrompts[level]
-  )
-  await countDown(level)
-
-  const gameState = new GameState(
-    gameWrapper,
-    shipWrapper,
-    path,
-    level,
-    handleGameEnd,
-    maxObstacle
-  )
-
-  level < 2
-    ? spawnObstacle(gameState)
-    : (spawnObstacleOpposite(gameState, true), initializeEventListeners(true))
-}
 
 async function setGameDifficulty() {
   if (!isDifficultySettingInProgress) {
@@ -132,24 +107,31 @@ async function handleGameEnd(score, isInverted = false) {
   }
 }
 
-function restartLevel() {
-  const leftRestartBtn = document.querySelector('.top-left-banner')
-
-  if (!leftRestartBtn) return
-
-  leftRestartBtn.style.animation = '0.8s linear infinite flicker'
-  leftRestartBtn.textContent = 'Restart level?'
-
-  const handleClick = () => {
-    reStartButton.style.removeProperty('animation')
-    leftRestartBtn.style.removeProperty('animation')
-    leftRestartBtn.innerHTML = 'Your score: <span>0</span>'
-    init()
-    leftRestartBtn.removeEventListener('click', handleClick)
+export async function init(restartLevel = false) {
+  if (level > 0) {
+    await travelToNextLevel()
   }
+  await updatePrompt(
+    gamePrompt,
+    level === 0
+      ? 'Get most space <div class="target"></div> out of ' + maxObstacle
+      : levelPrompts[level]
+  )
+  await countDown(level)
 
-  leftRestartBtn.removeEventListener('click', handleClick)
-  leftRestartBtn.addEventListener('click', handleClick)
+  const gameState = new GameState(
+    gameWrapper,
+    shipWrapper,
+    path,
+    level,
+    handleGameEnd,
+    maxObstacle
+  )
+
+  level < 2
+    ? spawnObstacle(gameState, restartLevel)
+    : (spawnObstacleOpposite(gameState, restartLevel),
+      initializeEventListeners(true))
 }
 
 export function handleDirection(direction) {

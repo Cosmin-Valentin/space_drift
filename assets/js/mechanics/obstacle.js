@@ -6,12 +6,17 @@ let currentObstacle = null
 let isMeteorite = false
 let gamePaused = false
 
-export function spawnObstacle(game) {
+export function spawnObstacle(game, restart = false) {
+  if (restart) {
+    currentObstacle = null
+    gamePaused = false
+  }
+
   if (currentObstacle) return
 
   if (game.level > 0) {
     if (game.obstacleCount === 0) {
-      resetHealth()
+      resetHealth(100)
     }
     healthBar.style.display = 'block'
   }

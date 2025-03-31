@@ -41,14 +41,12 @@ export function initializeEventListeners(invertControls = false) {
     if (['Enter', ' '].includes(e.key) && !isGameStarted) startGame()
   }
 
-  leftButtonListener = () => {
-    handleTouch(invertControls ? 'right' : 'left')
-    removePressedClass()
-  }
-  rightButtonListener = () => {
-    handleTouch(invertControls ? 'left' : 'right')
-    removePressedClass()
-  }
+  leftButtonListener = (e) => (
+    handleTouch(e, invertControls ? 'right' : 'left'), removePressedClass()
+  )
+  rightButtonListener = (e) => (
+    handleTouch(e, invertControls ? 'left' : 'right'), removePressedClass()
+  )
   startButtonListener = () => startGame()
   restartListener = (e) => {
     e.target.style.opacity = 0.5

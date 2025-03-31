@@ -1,8 +1,9 @@
 const healthBarFill = document.querySelector('.healthbar-fill')
 let currentHealth = null
 
-export function resetHealth() {
+export function resetHealth(reset) {
   currentHealth = null
+  updateHealthBar(reset)
 }
 
 export function takeDamage(damage) {

@@ -10,17 +10,18 @@ let score = null
 let targetScore = null
 let meteorites = null
 
-export function spawnObstacleOpposite(game, reset = false) {
+export function spawnObstacleOpposite(game, restart = false) {
+  if (restart) {
+    score = null
+    currentObstacle = null
+    gamePaused = false
+  }
+
   if (currentObstacle) return
 
   if (game.obstacleCount === 0) {
-    resetHealth()
-    healthBar.querySelector('.healthbar-fill').style.transform = 'scaleX(0)'
+    resetHealth(0)
     healthBar.style.display = 'block'
-  }
-
-  if (reset) {
-    score = null
   }
 
   if (score === null) {
