@@ -1,7 +1,7 @@
 import { GameState } from './core/GameState.js'
 import { travelToNextLevel } from './helper/travelToNextLevel.js'
 import { initializeEventListeners } from './mechanics/eventListeners.js'
-import { moveShip } from './mechanics/shipDodge.js'
+import { shipDodge } from './mechanics/shipDodge.js'
 import { spawnObstacle } from './mechanics/obstacle.js'
 import { spawnObstacleOpposite } from './mechanics/obstacleOpposite.js'
 import { countDown } from './ui/countDown.js'
@@ -14,19 +14,19 @@ import { setDifficulty } from './ui/setDifficulty.js'
 export const startButton = document.querySelector('.top-right-start-banner')
 export const reStartButton = document.querySelector('.top-right-restart-banner')
 export const gameWrapper = document.querySelector('.game-wrapper')
+export const shipWrapper = document.querySelector('.ship-wrapper')
+export const shipImage = document.querySelector('.ship img')
 export let isProcessing = false
 export let isGameStarted = false
+export let level = 0
 
 const gamePrompt = document.querySelector('.game-prompt')
 const path = document.querySelector('.path')
-const shipWrapper = document.querySelector('.ship-wrapper')
-const shipImage = document.querySelector('.ship img')
 const eventDuration = 100
 let isDifficultySet = false
 let isDifficultySettingInProgress = false
 let difficulty = null
 let maxObstacle = null
-let level = 0
 
 initializeEventListeners()
 
@@ -88,10 +88,6 @@ async function handleGameEnd(score, isInverted = false) {
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
     restartLevel()
-  } else if (level < 2) {
-    await updatePrompt(gamePrompt, `Level Over! Congrats!`)
-    level++
-    init()
   } else if (level === 2 && isInverted) {
     await updatePrompt(
       gamePrompt,
@@ -100,6 +96,12 @@ async function handleGameEnd(score, isInverted = false) {
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
     restartLevel()
+  } else if (level < 3) {
+    await updatePrompt(gamePrompt, `Level Over! Congrats!`)
+    if (++level === 3) {
+      initializeEventListeners()
+    }
+    init()
   } else {
     await updatePrompt(gamePrompt, `Game over! You're a true space cadet!`)
     reStartButton.style.animation =
@@ -128,10 +130,10 @@ export async function init(restartLevel = false) {
     maxObstacle
   )
 
-  level < 2
-    ? spawnObstacle(gameState, restartLevel)
-    : (spawnObstacleOpposite(gameState, restartLevel),
+  level === 2
+    ? (spawnObstacleOpposite(gameState, restartLevel),
       initializeEventListeners(true))
+    : spawnObstacle(gameState, restartLevel)
 }
 
 export function handleDirection(direction) {
@@ -141,7 +143,7 @@ export function handleDirection(direction) {
     .querySelector(`.bottom-dashboard.bottom-${direction}`)
     .classList.add('pressed')
 
-  isGameStarted && moveShip(direction, shipImage, shipWrapper)
+  isGameStarted && shipDodge(direction, shipImage, shipWrapper)
   !isGameStarted && changeShip(direction, shipImage, shipWrapper)
 
   setTimeout(() => {
