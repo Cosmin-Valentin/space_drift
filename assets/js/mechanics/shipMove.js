@@ -5,7 +5,7 @@ export function moveShipDynamic(direction) {
   const maxLeft =
     window.innerWidth < 769 ? window.innerWidth - 120 : window.innerWidth - 170
 
-  const moveSpeed = (maxLeft - minLeft) * 0.02
+  const moveSpeed = (maxLeft - minLeft) * 0.04
   let currentLeft = parseInt(getComputedStyle(shipWrapper).left, 10)
 
   if (direction === 'left' && currentLeft > minLeft) {

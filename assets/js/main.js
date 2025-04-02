@@ -3,6 +3,7 @@ import { travelToNextLevel } from './helper/travelToNextLevel.js'
 import { initializeEventListeners } from './mechanics/eventListeners.js'
 import { shipDodge } from './mechanics/shipDodge.js'
 import { spawnObstacle } from './mechanics/obstacle.js'
+import { spawnAsteroids } from './mechanics/obstacleAsteriods.js'
 import { spawnObstacleOpposite } from './mechanics/obstacleOpposite.js'
 import { countDown } from './ui/countDown.js'
 import { levelPrompts } from './ui/levelPrompts.js'
@@ -18,7 +19,7 @@ export const shipWrapper = document.querySelector('.ship-wrapper')
 export const shipImage = document.querySelector('.ship img')
 export let isProcessing = false
 export let isGameStarted = false
-export let level = 0
+export let level = 2
 
 const gamePrompt = document.querySelector('.game-prompt')
 const path = document.querySelector('.path')
@@ -80,18 +81,43 @@ function prepareGameStart() {
 async function handleGameEnd(score, isInverted = false) {
   const targetScore = Math.round(maxObstacle * 0.9)
 
-  if (level !== 2 && score < targetScore) {
-    await updatePrompt(
-      gamePrompt,
-      `Game over! Try collecting over ${targetScore} to progress.`
-    )
+  // if ((level === 0 || level === 1) && score < targetScore) {
+  //   await updatePrompt(
+  //     gamePrompt,
+  //     `Game over! Try collecting over ${targetScore} to progress.`
+  //   )
+  //   reStartButton.style.animation =
+  //     '0.8s linear 0s infinite normal none running flicker'
+  //   restartLevel()
+  // } else if (level === 2 && isInverted) {
+  //   await updatePrompt(
+  //     gamePrompt,
+  //     `Game over! Try avoiding over ${score} to progress.`
+  //   )
+  //   reStartButton.style.animation =
+  //     '0.8s linear 0s infinite normal none running flicker'
+  //   restartLevel()
+  // } else if (level < 4) {
+  //   await updatePrompt(gamePrompt, `Level Over! Congrats!`)
+  //   if (++level === 3) {
+  //     initializeEventListeners()
+  //   }
+  //   init()
+  // } else {
+  //   await updatePrompt(gamePrompt, `Game over! You're a true space cadet!`)
+  //   reStartButton.style.animation =
+  //     '0.8s linear 0s infinite normal none running flicker'
+  // }
+
+  if (isInverted) {
+    await updatePrompt(gamePrompt, `Try avoiding over ${score} to progress.`)
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
     restartLevel()
-  } else if (level === 2 && isInverted) {
+  } else if (score < targetScore) {
     await updatePrompt(
       gamePrompt,
-      `Game over! Try avoiding over ${score} to progress.`
+      `Try collecting over ${targetScore} to progress.`
     )
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
@@ -130,10 +156,14 @@ export async function init(restartLevel = false) {
     maxObstacle
   )
 
-  level === 2
-    ? (spawnObstacleOpposite(gameState, restartLevel),
-      initializeEventListeners(true))
-    : spawnObstacle(gameState, restartLevel)
+  if (level === 2) {
+    initializeEventListeners(true)
+    spawnObstacleOpposite(gameState, restartLevel)
+  } else if (level === 3) {
+    spawnAsteroids(gameState, restartLevel)
+  } else {
+    spawnObstacle(gameState, restartLevel)
+  }
 }
 
 export function handleDirection(direction) {
