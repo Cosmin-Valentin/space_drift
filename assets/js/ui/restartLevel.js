@@ -5,7 +5,7 @@ export function restartLevel() {
 
   if (!leftRestartBtn) return
 
-  leftRestartBtn.style.animation = '0.8s linear infinite flicker'
+  leftRestartBtn.style.animation = '1s linear infinite flicker'
   leftRestartBtn.style.cursor = 'pointer'
   leftRestartBtn.textContent = 'Restart level?'
 

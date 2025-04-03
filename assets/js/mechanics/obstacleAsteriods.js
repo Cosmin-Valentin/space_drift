@@ -12,6 +12,7 @@ export function spawnAsteroids(game, restart = false) {
     activeObstacles = []
     gamePaused = false
     spawning = true
+    game.shipWrapper.style.left = '50%'
   }
 
   if (game.obstacleCount === 0) {

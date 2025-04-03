@@ -2,6 +2,11 @@ export function healthSparkle(ship, fullAnimation = false) {
   return new Promise((resolve) => {
     const duration = 500
 
+    const flashes = document.querySelectorAll('.flash-animation')
+    if (flashes.length > 0) {
+      flashes.forEach((el) => el.remove())
+    }
+
     const flash = document.createElement('div')
     flash.classList.add('flash-animation')
     const img = document.createElement('img')

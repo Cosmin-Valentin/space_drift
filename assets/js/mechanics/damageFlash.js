@@ -7,6 +7,11 @@ export function damageFlash(ship, fullAnimation = false) {
       '/assets/images/env/flash-st-three.png'
     ]
 
+    const flashes = document.querySelectorAll('.flash-animation')
+    if (flashes.length > 0) {
+      flashes.forEach((el) => el.remove())
+    }
+
     const flash = document.createElement('div')
     flash.classList.add('flash-animation')
     ship.appendChild(flash)

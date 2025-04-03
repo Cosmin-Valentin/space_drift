@@ -4,6 +4,7 @@ import { shipWrapper, shipImage } from '../main.js'
 let moveInterval
 
 export function startMoving(direction) {
+  shipWrapper.style.removeProperty('transition')
   shipImage.style.removeProperty('transition')
   shipImage.style.transition = 'transform 0.3s ease, filter 0.3s ease'
   shipWrapper.classList.add(`move-${direction}`)

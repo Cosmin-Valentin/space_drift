@@ -40,7 +40,7 @@
 }
 
 .game-prompt-text.animated {
-  animation: 0.8s linear 0s infinite normal none running flicker;
+  animation: 2s linear 0s infinite normal none running flicker;
 }
 
 @keyframes flicker {
@@ -215,12 +215,12 @@
   width: 15vh;
   height: 5vh;
   border-radius: 50%;
-  animation: flicker 0.5s infinite alternate;
+  animation: burn 0.5s infinite alternate;
   background: linear-gradient(to left, blue, yellow);
   filter: blur(5px);
 }
 
-@keyframes flicker {
+@keyframes burn {
   from {
     opacity: 0.6;
   }

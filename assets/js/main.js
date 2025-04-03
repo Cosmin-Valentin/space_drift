@@ -81,34 +81,6 @@ function prepareGameStart() {
 async function handleGameEnd(score, isInverted = false) {
   const targetScore = Math.round(maxObstacle * 0.9)
 
-  // if ((level === 0 || level === 1) && score < targetScore) {
-  //   await updatePrompt(
-  //     gamePrompt,
-  //     `Game over! Try collecting over ${targetScore} to progress.`
-  //   )
-  //   reStartButton.style.animation =
-  //     '0.8s linear 0s infinite normal none running flicker'
-  //   restartLevel()
-  // } else if (level === 2 && isInverted) {
-  //   await updatePrompt(
-  //     gamePrompt,
-  //     `Game over! Try avoiding over ${score} to progress.`
-  //   )
-  //   reStartButton.style.animation =
-  //     '0.8s linear 0s infinite normal none running flicker'
-  //   restartLevel()
-  // } else if (level < 4) {
-  //   await updatePrompt(gamePrompt, `Level Over! Congrats!`)
-  //   if (++level === 3) {
-  //     initializeEventListeners()
-  //   }
-  //   init()
-  // } else {
-  //   await updatePrompt(gamePrompt, `Game over! You're a true space cadet!`)
-  //   reStartButton.style.animation =
-  //     '0.8s linear 0s infinite normal none running flicker'
-  // }
-
   if (isInverted) {
     await updatePrompt(gamePrompt, `Try avoiding over ${score} to progress.`)
     reStartButton.style.animation =
@@ -136,16 +108,16 @@ async function handleGameEnd(score, isInverted = false) {
 }
 
 export async function init(restartLevel = false) {
-  if (level > 0) {
-    await travelToNextLevel()
-  }
-  await updatePrompt(
-    gamePrompt,
-    level === 0
-      ? 'Get most space <div class="target"></div> out of ' + maxObstacle
-      : levelPrompts[level]
-  )
-  await countDown(level)
+  // if (level > 0) {
+  //   await travelToNextLevel()
+  // }
+  // await updatePrompt(
+  //   gamePrompt,
+  //   level === 0
+  //     ? 'Get most space <div class="target"></div> out of ' + maxObstacle
+  //     : levelPrompts[level]
+  // )
+  // await countDown(level)
 
   const gameState = new GameState(
     gameWrapper,
