@@ -19,7 +19,7 @@ export const shipWrapper = document.querySelector('.ship-wrapper')
 export const shipImage = document.querySelector('.ship img')
 export let isProcessing = false
 export let isGameStarted = false
-export let level = 2
+export let level = 0
 
 const gamePrompt = document.querySelector('.game-prompt')
 const path = document.querySelector('.path')
@@ -108,16 +108,16 @@ async function handleGameEnd(score, isInverted = false) {
 }
 
 export async function init(restartLevel = false) {
-  // if (level > 0) {
-  //   await travelToNextLevel()
-  // }
-  // await updatePrompt(
-  //   gamePrompt,
-  //   level === 0
-  //     ? 'Get most space <div class="target"></div> out of ' + maxObstacle
-  //     : levelPrompts[level]
-  // )
-  // await countDown(level)
+  if (level > 0) {
+    await travelToNextLevel(restartLevel)
+  }
+  await updatePrompt(
+    gamePrompt,
+    level === 0
+      ? 'Get most space <div class="target"></div> out of ' + maxObstacle
+      : levelPrompts[level]
+  )
+  await countDown(level)
 
   const gameState = new GameState(
     gameWrapper,

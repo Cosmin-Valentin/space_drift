@@ -88,8 +88,7 @@ function moveObstacle(obstacle, game) {
             gamePaused = false
           }
         } else {
-          game.score++
-          game.scoreElement.innerText = game.score
+          game.scoreElement.innerText = ++game.score
         }
         obstacle?.remove()
         clearInterval(obstacleInterval)

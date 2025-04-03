@@ -32,7 +32,7 @@ export function spawnObstacleOpposite(game, restart = false) {
     targetScore = Math.round(score * 0.9)
   }
 
-  if (score == 0) {
+  if (score === 0) {
     game.onGameEnd(targetScore, true)
     return
   }
@@ -107,8 +107,7 @@ function moveObstacle(obstacle, game) {
               .querySelector('.ship-img')
               .classList.toggle('not-edible')
           }, 500)
-          score--
-          game.scoreElement.innerText = score
+          game.scoreElement.innerText = --score
         }
         obstacle?.remove()
         clearInterval(obstacleInterval)

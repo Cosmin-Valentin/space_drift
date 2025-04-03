@@ -1,42 +1,50 @@
 import { startButton, reStartButton, gameWrapper } from '../main.js'
 
-export function travelToNextLevel() {
+export function travelToNextLevel(restart = false) {
   return new Promise((resolve) => {
+    const travelStart = restart
+      ? "url('../assets/images/background/travel-rs-start.png')"
+      : "url('../assets/images/background/travel-start.png')"
+    const travelEnd = restart
+      ? "url('../assets/images/background/travel-rs-end.png')"
+      : "url('../assets/images/background/travel-end.png')"
     const duration = 6000
-    gameWrapper.style.backgroundImage =
-      "url('../assets/images/background/travel-start.png')"
+    gameWrapper.style.backgroundImage = travelStart
 
     hideElements()
-    shipTravelAnimation()
+    shipTravelAnimation(restart)
 
     setTimeout(() => {
-      gameWrapper.style.backgroundImage =
-        "url('../assets/images/background/travel-end.png')"
+      gameWrapper.style.backgroundImage = travelEnd
     }, 3000)
 
     setTimeout(() => {
       gameWrapper.style.removeProperty('background-image')
-      gameWrapper.querySelector('.ship-travel').remove()
+      gameWrapper
+        .querySelector(restart ? '.ship-travel-rs' : '.ship-travel')
+        .remove()
       showElements()
       resolve()
     }, duration)
   })
 }
 
-function shipTravelAnimation() {
+function shipTravelAnimation(restart = false) {
   const shipImgSrc = gameWrapper.querySelector('.ship img').src
   const shipTravel = document.createElement('div')
   const ship = document.createElement('img')
   const shipFlame = document.createElement('div')
 
   ship.src = shipImgSrc
-  shipTravel.classList.add('ship-travel')
+  restart
+    ? shipTravel.classList.add('ship-travel-rs')
+    : shipTravel.classList.add('ship-travel')
   shipFlame.classList.add('ship-travel-flame')
   shipTravel.appendChild(ship)
   shipTravel.appendChild(shipFlame)
   gameWrapper.appendChild(shipTravel)
   if (shipImgSrc.includes('2')) {
-    shipFlame.style.left = '15vh'
+    shipFlame.style.left = restart ? '-10vh' : '15vh'
   }
 }
 

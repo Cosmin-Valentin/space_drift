@@ -191,13 +191,6 @@
     left: 0%;
     opacity: 0;
   }
-
-  /* 0% {
-    left: 50%;
-  }
-  100% {
-    left: 50%;
-  } */
 }
 
 .ship-travel img {
@@ -207,17 +200,61 @@
   transform: translateY(-50%) rotate(-90deg);
 }
 
+.ship-travel-rs {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  animation-name: travelLeftToRightFadeOut;
+  animation-duration: 6s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes travelLeftToRightFadeOut {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  20% {
+    left: 20%;
+    opacity: 1;
+  }
+  80% {
+    left: 80%;
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+.ship-travel-rs img {
+  position: absolute;
+  width: 20vh;
+  height: 30vh;
+  transform: translateY(-50%) rotate(90deg);
+}
+
 .ship-travel-flame {
   position: absolute;
-  left: 20vh;
   top: 50%;
-  transform: translateY(-50%) rotate(180deg);
   width: 15vh;
   height: 5vh;
   border-radius: 50%;
+  transform: translateY(-50%) rotate(180deg);
   animation: burn 0.5s infinite alternate;
-  background: linear-gradient(to left, blue, yellow);
   filter: blur(5px);
+}
+
+.ship-travel .ship-travel-flame {
+  left: 20vh;
+  background: linear-gradient(to left, blue, yellow);
+}
+
+.ship-travel-rs .ship-travel-flame {
+  left: -15vh;
+  background: linear-gradient(to left, yellow, blue);
 }
 
 @keyframes burn {
