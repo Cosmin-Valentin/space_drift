@@ -1,5 +1,6 @@
 import { resetHealth, takeDamage } from '../ui/updateHealthbar.js'
 import { damageFlash } from './damageFlash.js'
+import { bonusItemAnimation } from './bonusItemAnimation.js'
 import { shipImage } from '../main.js'
 
 const healthBar = document.querySelector('.healthbar')
@@ -127,6 +128,11 @@ function moveObstacle(obstacle, game) {
           await damageFlash(game.shipWrapper, true)
           clearInterval(obstacleInterval)
           return
+        } else if (isCookie || isEatMe || isDrinkMe) {
+          obstacle?.remove()
+          let bonusType = isCookie ? 'cookie' : isEatMe ? 'eat-me' : 'drink-me'
+          await bonusItemAnimation(game.shipWrapper, bonusType)
+          gamePaused = false
         } else {
           obstacle?.remove()
           await damageFlash(game.shipWrapper)

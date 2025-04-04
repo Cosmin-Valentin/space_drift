@@ -334,6 +334,45 @@
   pointer-events: none;
 }
 
+.flash-animation img.rewind {
+  animation: fadeOut 0.5s linear forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.flash-animation img.grow {
+  animation: growOut 0.5s linear forwards;
+}
+
+@keyframes growOut {
+  0% {
+    scale: 0;
+  }
+  100% {
+    scale: 1.5;
+  }
+}
+
+.flash-animation img.shrink {
+  animation: shrinkIn 0.5s linear forwards;
+}
+
+@keyframes shrinkIn {
+  0% {
+    scale: 1.5;
+  }
+  100% {
+    scale: 0;
+  }
+}
+
 .healthbar {
   position: absolute;
   left: 5px;

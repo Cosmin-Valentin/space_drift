@@ -18,11 +18,11 @@ export const reStartButton = document.querySelector('.top-right-restart-banner')
 export const gameWrapper = document.querySelector('.game-wrapper')
 export const shipWrapper = document.querySelector('.ship-wrapper')
 export const shipImage = document.querySelector('.ship img')
+export const gamePrompt = document.querySelector('.game-prompt')
 export let isProcessing = false
 export let isGameStarted = false
-export let level = 0
+export let level = 4
 
-const gamePrompt = document.querySelector('.game-prompt')
 const path = document.querySelector('.path')
 const eventDuration = 100
 let isDifficultySet = false
@@ -83,26 +83,23 @@ async function handleGameEnd(score, isInverted = false) {
   const targetScore = Math.round(maxObstacle * 0.9)
 
   if (isInverted) {
-    await updatePrompt(gamePrompt, `Try avoiding over ${score} to progress.`)
+    await updatePrompt(`Try avoiding over ${score} to progress.`)
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
     restartLevel()
   } else if (score < targetScore) {
-    await updatePrompt(
-      gamePrompt,
-      `Try collecting over ${targetScore} to progress.`
-    )
+    await updatePrompt(`Try collecting over ${targetScore} to progress.`)
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
     restartLevel()
   } else if (level < 4) {
-    await updatePrompt(gamePrompt, `Level Over! Congrats!`)
+    await updatePrompt(`Level Over! Congrats!`)
     if (++level === 3) {
       initializeEventListeners()
     }
     init()
   } else {
-    await updatePrompt(gamePrompt, `Game over! You're a true space cadet!`)
+    await updatePrompt(`Game over! You're a true space cadet!`)
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
   }
@@ -113,7 +110,6 @@ export async function init(restartLevel = false) {
     await travelToNextLevel(restartLevel)
   }
   await updatePrompt(
-    gamePrompt,
     level === 0
       ? 'Get most space <div class="target"></div> out of ' + maxObstacle
       : levelPrompts[level]

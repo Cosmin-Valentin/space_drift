@@ -1,24 +1,26 @@
-export function updatePrompt(prompt, message) {
+import { gamePrompt } from '../main.js'
+
+export function updatePrompt(message, duration = 3000) {
   return new Promise((resolve) => {
     try {
-      if (!prompt) {
+      if (!gamePrompt) {
         console.error('Error: Prompt element is null or undefined.')
         return
       }
 
-      const promptTextElement = prompt.querySelector('.game-prompt-text')
+      const promptTextElement = gamePrompt.querySelector('.game-prompt-text')
       if (!promptTextElement) {
         console.error('Error: .game-prompt-text element not found.')
         return
       }
 
-      prompt.style.removeProperty('display')
+      gamePrompt.style.removeProperty('display')
       promptTextElement.innerHTML = message
 
       setTimeout(() => {
-        prompt.style.display = 'none'
+        gamePrompt.style.display = 'none'
         resolve()
-      }, 3000)
+      }, duration)
     } catch (error) {
       console.error('Error in updatePrompt:', error)
     }
