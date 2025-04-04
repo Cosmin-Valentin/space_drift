@@ -5,6 +5,7 @@ import { shipDodge } from './mechanics/shipDodge.js'
 import { spawnObstacle } from './mechanics/obstacle.js'
 import { spawnAsteroids } from './mechanics/obstacleAsteriods.js'
 import { spawnObstacleOpposite } from './mechanics/obstacleOpposite.js'
+import { spawnWonderland } from './mechanics/obstacleWonderland.js'
 import { countDown } from './ui/countDown.js'
 import { levelPrompts } from './ui/levelPrompts.js'
 import { updatePrompt } from './ui/prompt.js'
@@ -19,7 +20,7 @@ export const shipWrapper = document.querySelector('.ship-wrapper')
 export const shipImage = document.querySelector('.ship img')
 export let isProcessing = false
 export let isGameStarted = false
-export let level = 3
+export let level = 0
 
 const gamePrompt = document.querySelector('.game-prompt')
 const path = document.querySelector('.path')
@@ -94,7 +95,7 @@ async function handleGameEnd(score, isInverted = false) {
     reStartButton.style.animation =
       '0.8s linear 0s infinite normal none running flicker'
     restartLevel()
-  } else if (level < 3) {
+  } else if (level < 4) {
     await updatePrompt(gamePrompt, `Level Over! Congrats!`)
     if (++level === 3) {
       initializeEventListeners()
@@ -125,7 +126,8 @@ export async function init(restartLevel = false) {
     path,
     level,
     handleGameEnd,
-    maxObstacle
+    maxObstacle,
+    difficulty
   )
 
   if (level === 2) {
@@ -133,6 +135,8 @@ export async function init(restartLevel = false) {
     spawnObstacleOpposite(gameState, restartLevel)
   } else if (level === 3) {
     spawnAsteroids(gameState, restartLevel)
+  } else if (level === 4) {
+    spawnWonderland(gameState, restartLevel)
   } else {
     spawnObstacle(gameState, restartLevel)
   }

@@ -278,7 +278,9 @@
 
 .cookie,
 .meteorite,
-.asteroid {
+.asteroid,
+.eat-me,
+.drink-me {
   position: absolute;
   background-size: contain;
   background-repeat: no-repeat;
@@ -302,6 +304,18 @@
   height: 80px;
   background-image: url('../images/obstacles/asteroid.png');
   animation: spin 4s linear infinite;
+}
+
+.eat-me {
+  width: 40px;
+  height: 40px;
+  background-image: url('../images/obstacles/eat-me.png');
+}
+
+.drink-me {
+  width: 30px;
+  height: 30px;
+  background-image: url('../images/obstacles/drink-me.png');
 }
 
 @keyframes spin {
