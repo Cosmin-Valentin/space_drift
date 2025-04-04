@@ -14,6 +14,7 @@ let activeObstacles = []
 let gamePaused = false
 let spawning = true
 let recoveryTimer = null
+let recoveryStartId = 0
 
 export function spawnWonderland(game, restart = false) {
   if (restart) {
@@ -192,30 +193,36 @@ function reSize(isGrowing = false) {
 
 function startRecoveryTimer(game) {
   if (recoveryTimer) {
-    clearInterval(recoveryTimer)
+    cancelAnimationFrame(recoveryTimer)
     recoveryTimer = null
   }
 
+  const currentRecoveryId = ++recoveryStartId
   let startTime = performance.now()
-  let duration = 20000
+  const duration = 20000
   recoveryBar.style.width = '0px'
 
   function updateRecoveryBar(currentTime) {
-    let elapsedTime = currentTime - startTime
-    let progress = Math.min(elapsedTime / duration, 1)
+    if (currentRecoveryId !== recoveryStartId) return
+
+    const elapsedTime = currentTime - startTime
+    const progress = Math.min(elapsedTime / duration, 1)
     recoveryBar.style.width = `${progress * 140}px`
 
     if (progress < 1) {
       recoveryTimer = requestAnimationFrame(updateRecoveryBar)
     } else {
       recoveryTimer = null
-      game.hits = Math.max(0, game.hits - 1)
-      increaseHealth(25)
-      healthSparkle(game.shipWrapper)
-      recoveryBar.style.width = '0px'
 
-      if (game.hits > 0) {
-        startRecoveryTimer(game)
+      if (currentRecoveryId === recoveryStartId) {
+        game.hits = Math.max(0, game.hits - 1)
+        increaseHealth(25)
+        healthSparkle(game.shipWrapper)
+        recoveryBar.style.width = '0px'
+
+        if (game.hits > 0) {
+          startRecoveryTimer(game)
+        }
       }
     }
   }
