@@ -399,6 +399,22 @@
   z-index: 1;
 }
 
+.healthbar .recovery-bar {
+  position: absolute;
+  left: 5px;
+  top: 95px;
+  width: 0px;
+  height: 25px;
+  background-color: rgba(30, 85, 175, 0.6);
+  border-radius: 5px;
+  transition: width 0.5s linear;
+  z-index: 0;
+  background-image: url('../images/env/plus.png');
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: left center;
+}
+
 .flicker-animation {
   animation: blink 500ms ease-in-out 2;
 }

@@ -1,12 +1,19 @@
-import { resetHealth, takeDamage } from '../ui/updateHealthbar.js'
+import {
+  increaseHealth,
+  resetHealth,
+  takeDamage
+} from '../ui/updateHealthbar.js'
 import { damageFlash } from './damageFlash.js'
 import { bonusItemAnimation } from './bonusItemAnimation.js'
 import { shipImage } from '../main.js'
+import { healthSparkle } from './healthSparkle.js'
 
 const healthBar = document.querySelector('.healthbar')
+const recoveryBar = document.querySelector('.recovery-bar')
 let activeObstacles = []
 let gamePaused = false
 let spawning = true
+let recoveryTimer = null
 
 export function spawnWonderland(game, restart = false) {
   if (restart) {
@@ -35,8 +42,8 @@ export function spawnWonderland(game, restart = false) {
       obstacle.classList.add('asteroid')
       game.lastAsteroidSpawn = game.obstacleCount
     } else if (
-      game.obstacleCount - (game.lastResizeSpawn || 0) >= 30 &&
-      Math.random() * 5 < 1
+      game.obstacleCount - (game.lastResizeSpawn || 0) >= 20 &&
+      Math.random() * 7 < 1
     ) {
       obstacle.classList.add(Math.random() < 0.5 ? 'eat-me' : 'drink-me')
       game.lastResizeSpawn = game.obstacleCount
@@ -68,9 +75,16 @@ export function spawnWonderland(game, restart = false) {
   function spawnLoop() {
     if (!spawning) {
       if (game.hits >= 4) {
-        game.onGameEnd(game.score)
+        const targetScore = Math.round(game.maxObstacle * 0.9)
+
+        if (game.score >= targetScore) {
+          game.onGameEnd(game.score)
+        } else {
+          game.onGameEnd(targetScore, true)
+        }
       }
       game.shipWrapper.style.left = '50%'
+      recoveryBar.style.width = '0px'
       return
     }
 
@@ -106,9 +120,12 @@ function moveObstacle(obstacle, game) {
 
       if (checkCollision(obstacle, game.shipWrapper)) {
         gamePaused = true
+        let tookDamage = false
+
         if (isAsteroid) {
           takeDamage(50)
           game.hits += 2
+          tookDamage = true
         } else if (isCookie) {
           game.obstacleSpeed -= Math.random() < 0.5 ? 3 : 4
         } else if (isEatMe) {
@@ -118,6 +135,11 @@ function moveObstacle(obstacle, game) {
         } else {
           takeDamage(25)
           game.hits++
+          tookDamage = true
+        }
+
+        if (tookDamage) {
+          startRecoveryTimer(game)
         }
 
         if (game.hits >= 4) {
@@ -131,7 +153,7 @@ function moveObstacle(obstacle, game) {
         } else if (isCookie || isEatMe || isDrinkMe) {
           obstacle?.remove()
           let bonusType = isCookie ? 'cookie' : isEatMe ? 'eat-me' : 'drink-me'
-          await bonusItemAnimation(game.shipWrapper, bonusType)
+          bonusItemAnimation(game.shipWrapper, bonusType)
           gamePaused = false
         } else {
           obstacle?.remove()
@@ -166,4 +188,37 @@ function reSize(isGrowing = false) {
 
   shipImage.style.width = `${currentWidthVh * (isGrowing ? 1.2 : 0.8)}vh`
   shipImage.style.height = `${currentHeightVh * (isGrowing ? 1.2 : 0.8)}vh`
+}
+
+function startRecoveryTimer(game) {
+  if (recoveryTimer) {
+    clearInterval(recoveryTimer)
+    recoveryTimer = null
+  }
+
+  let startTime = performance.now()
+  let duration = 20000
+  recoveryBar.style.width = '0px'
+
+  function updateRecoveryBar(currentTime) {
+    let elapsedTime = currentTime - startTime
+    let progress = Math.min(elapsedTime / duration, 1)
+    recoveryBar.style.width = `${progress * 140}px`
+
+    if (progress < 1) {
+      recoveryTimer = requestAnimationFrame(updateRecoveryBar)
+    } else {
+      recoveryTimer = null
+      game.hits = Math.max(0, game.hits - 1)
+      increaseHealth(25)
+      healthSparkle(game.shipWrapper)
+      recoveryBar.style.width = '0px'
+
+      if (game.hits > 0) {
+        startRecoveryTimer(game)
+      }
+    }
+  }
+
+  recoveryTimer = requestAnimationFrame(updateRecoveryBar)
 }
