@@ -5,6 +5,7 @@ const healthBar = document.querySelector('.healthbar')
 let activeObstacles = []
 let gamePaused = false
 let spawning = true
+let isAsteroid = false
 
 export function spawnAsteroids(game, restart = false) {
   if (restart) {
@@ -19,11 +20,16 @@ export function spawnAsteroids(game, restart = false) {
   }
   healthBar.style.display = 'block'
 
-  function spawnSingleAsteroid() {
+  function spawnSingleObstacle() {
     if (!spawning || activeObstacles.length >= 3) return
 
     const obstacle = document.createElement('div')
-    obstacle.classList.add('meteorite')
+
+    if (!game.asteroids.has(game.obstacleCount)) {
+      obstacle.classList.add('meteorite')
+    } else {
+      obstacle.classList.add('asteroid')
+    }
 
     if (++game.obstacleCount % 5 === 0) game.obstacleSpeed += 1
 
@@ -42,7 +48,7 @@ export function spawnAsteroids(game, restart = false) {
 
   function spawnLoop() {
     if (!spawning || game.obstacleCount >= game.maxObstacle) {
-      if (game.hits === 4) {
+      if (game.hits >= 4) {
         game.onGameEnd(game.maxObstacle - 4, true)
       } else {
         game.onGameEnd(game.score)
@@ -53,7 +59,7 @@ export function spawnAsteroids(game, restart = false) {
 
     const numObstacles = Math.floor(Math.random() * 3) + 1
     for (let i = 0; i < numObstacles; i++) {
-      setTimeout(spawnSingleAsteroid, Math.random() * 2000)
+      setTimeout(spawnSingleObstacle, Math.random() * 2000)
     }
 
     setTimeout(spawnLoop, Math.random() * 3000 + 1000)
@@ -67,6 +73,8 @@ function moveObstacle(obstacle, game) {
     if (gamePaused) return
 
     let currentTop = parseInt(obstacle.style.top)
+    const isAsteroid = obstacle.classList.contains('asteroid')
+    const speed = isAsteroid ? 8 : game.obstacleSpeed
 
     if (currentTop >= game.gameWrapper.clientHeight) {
       obstacle?.remove()
@@ -74,13 +82,18 @@ function moveObstacle(obstacle, game) {
       activeObstacles = activeObstacles.filter((o) => o !== obstacle)
       game.scoreElement.innerText = ++game.score
     } else {
-      obstacle.style.top = `${currentTop + game.obstacleSpeed}px`
+      obstacle.style.top = `${currentTop + speed}px`
 
       if (checkCollision(obstacle, game.shipWrapper)) {
         gamePaused = true
-        takeDamage(25)
-        game.hits++
-        if (game.hits === 4) {
+        if (isAsteroid) {
+          takeDamage(50)
+          game.hits += 2
+        } else {
+          takeDamage(25)
+          game.hits++
+        }
+        if (game.hits >= 4) {
           spawning = false
           activeObstacles.forEach((o) => o.remove())
           activeObstacles = []

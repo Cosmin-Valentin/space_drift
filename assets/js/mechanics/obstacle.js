@@ -39,9 +39,7 @@ export function spawnObstacle(game, restart = false) {
     obstacle.classList.add('meteorite')
   }
 
-  game.obstacleCount++
-
-  if ((game.obstacleCount - game.meteorites.size) % 5 === 0)
+  if ((++game.obstacleCount - game.meteorites.size) % 5 === 0)
     game.obstacleSpeed += 1
 
   const gameWidth = game.gameWrapper.clientWidth

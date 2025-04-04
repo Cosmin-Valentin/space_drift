@@ -19,7 +19,7 @@ export const shipWrapper = document.querySelector('.ship-wrapper')
 export const shipImage = document.querySelector('.ship img')
 export let isProcessing = false
 export let isGameStarted = false
-export let level = 0
+export let level = 3
 
 const gamePrompt = document.querySelector('.game-prompt')
 const path = document.querySelector('.path')

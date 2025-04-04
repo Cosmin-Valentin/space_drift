@@ -277,7 +277,8 @@
 }
 
 .cookie,
-.meteorite {
+.meteorite,
+.asteroid {
   position: absolute;
   background-size: contain;
   background-repeat: no-repeat;
@@ -294,6 +295,19 @@
   width: 45px;
   height: 45px;
   background-image: url('../images/obstacles/meteorite.png');
+}
+
+.asteroid {
+  width: 80px;
+  height: 80px;
+  background-image: url('../images/obstacles/asteroid.png');
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .flash-animation,

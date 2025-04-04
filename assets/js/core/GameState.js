@@ -13,6 +13,7 @@ export class GameState {
     this.score = 0
     this.hits = 0
     this.meteorites = generateRandomSet(maxObstacle / 10, maxObstacle)
+    this.asteroids = generateRandomSet(maxObstacle / 10, maxObstacle)
     this.scoreElement = document.querySelector('.top-left-banner span')
 
     this.scoreElement.innerText = this.score
