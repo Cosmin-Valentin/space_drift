@@ -5,7 +5,12 @@ export function countDown(level) {
     const numbers = ['3', '2', '1', 'GO!']
     let i = 0
 
-    countDownText.textContent = level === 0 ? 'Ready?' : 'Level ' + ++level
+    countDownText.textContent =
+      level === 0
+        ? 'Ready?'
+        : level === 4
+        ? 'Entering Wonderland!'
+        : 'Level ' + ++level
     countDown.style.display = 'flex'
 
     setTimeout(() => {

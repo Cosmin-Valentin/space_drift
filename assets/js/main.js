@@ -21,7 +21,7 @@ export const shipImage = document.querySelector('.ship img')
 export const gamePrompt = document.querySelector('.game-prompt')
 export let isProcessing = false
 export let isGameStarted = false
-export let level = 4
+export let level = 0
 
 const path = document.querySelector('.path')
 const eventDuration = 100
