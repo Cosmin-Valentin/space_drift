@@ -86,6 +86,8 @@ export function spawnWonderland(game, restart = false) {
       }
       game.shipWrapper.style.left = '50%'
       recoveryBar.style.width = '0px'
+      cancelAnimationFrame(recoveryTimer)
+      recoveryTimer = null
       return
     }
 
