@@ -1,4 +1,4 @@
-import { startButton, reStartButton, gameWrapper } from '../main.js'
+import { startButton, menuButton, gameWrapper } from '../main.js'
 
 export function travelToNextLevel(restart = false) {
   return new Promise((resolve) => {
@@ -50,7 +50,7 @@ function shipTravelAnimation(restart = false) {
 
 function hideElements() {
   startButton.style.opacity = '0'
-  reStartButton.style.opacity = '0'
+  menuButton.style.opacity = '0'
   document.querySelector('.top-left-banner').style.opacity = '0'
   document.querySelector('.healthbar').style.opacity = '0'
   gameWrapper.querySelector('.game-inner').style.opacity = '0'
@@ -67,5 +67,5 @@ function showElements() {
   document.querySelector('.healthbar').style.removeProperty('opacity')
   gameWrapper.querySelector('.game-inner').style.removeProperty('opacity')
   startButton.style.removeProperty('opacity')
-  reStartButton.style.removeProperty('opacity')
+  menuButton.style.removeProperty('opacity')
 }

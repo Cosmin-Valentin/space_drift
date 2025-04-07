@@ -4,10 +4,10 @@ import {
   handleTouch,
   removePressedClass,
   startButton,
-  reStartButton,
+  menuButton,
   isProcessing,
   isGameStarted,
-  level
+  getLevel
 } from '../main.js'
 
 import { startMoving, stopMoving } from '../helper/moveShip.js'
@@ -17,9 +17,17 @@ let leftButtonListener
 let rightButtonListener
 let startButtonListener
 let restartListener
+let toggleMenuListener
+let goToLevelListener
 
 const buttonLeft = document.querySelector('.bottom-dashboard.bottom-left')
 const buttonRight = document.querySelector('.bottom-dashboard.bottom-right')
+const restartGameButton = document.querySelector(
+  '.top-right-menu .restart-game'
+)
+const menuLevels = document.querySelectorAll(
+  '.top-right-menu .dropdown-item[data-start-level]'
+)
 
 const leftMouseDown = () => startMoving('left')
 const rightMouseDown = () => startMoving('right')
@@ -35,7 +43,13 @@ export function initializeEventListeners(invertControls = false) {
   if (startButtonListener)
     startButton.removeEventListener('click', startButtonListener)
   if (restartListener)
-    reStartButton.removeEventListener('click', restartListener)
+    restartGameButton.removeEventListener('click', restartListener)
+  if (toggleMenuListener)
+    menuButton.removeEventListener('click', toggleMenuListener)
+  if (goToLevelListener)
+    menuLevels.forEach((el) =>
+      el.removeEventListener('click', goToLevelListener)
+    )
 
   document.removeEventListener('keyup', stopMoving)
   buttonLeft.removeEventListener('mousedown', leftMouseDown)
@@ -53,7 +67,7 @@ export function initializeEventListeners(invertControls = false) {
     const leftKeys = invertControls ? ['d', 'ArrowRight'] : ['a', 'ArrowLeft']
     const rightKeys = invertControls ? ['a', 'ArrowLeft'] : ['d', 'ArrowRight']
 
-    if (level >= 3) {
+    if (getLevel() >= 3) {
       if (leftKeys.includes(e.key)) startMoving('left')
       if (rightKeys.includes(e.key)) startMoving('right')
     } else {
@@ -64,13 +78,13 @@ export function initializeEventListeners(invertControls = false) {
   }
 
   leftButtonListener = (e) => {
-    if (level < 3) {
+    if (getLevel() < 3) {
       handleTouch(e, invertControls ? 'right' : 'left')
       removePressedClass()
     }
   }
   rightButtonListener = (e) => {
-    if (level < 3) {
+    if (getLevel() < 3) {
       handleTouch(e, invertControls ? 'left' : 'right')
       removePressedClass()
     }
@@ -81,23 +95,41 @@ export function initializeEventListeners(invertControls = false) {
     e.target.style.opacity = 0.5
     setTimeout(() => window.location.reload(), 200)
   }
+  toggleMenuListener = (e) => {
+    e.target.classList.toggle('open')
+  }
+  goToLevelListener = (e) => {
+    let startLevel = e.target.dataset.startLevel
+    const shipImg = document.querySelector('.ship-img')
+    const shipSrc = shipImg.getAttribute('src')
+    const match = shipSrc.match(/ship-(\d+)\.png/)
+    if (startLevel && match) {
+      localStorage.setItem('startLevel', startLevel)
+      localStorage.setItem('startShip', parseInt(match[1]))
+      window.location.reload()
+    }
+  }
 
   document.addEventListener('keyup', stopMoving)
   document.addEventListener('keydown', keydownListener)
   buttonLeft.addEventListener('click', leftButtonListener)
   buttonRight.addEventListener('click', rightButtonListener)
   startButton.addEventListener('click', startButtonListener)
-  reStartButton.addEventListener('click', restartListener)
+  restartGameButton.addEventListener('click', restartListener)
+  menuButton.addEventListener('click', toggleMenuListener)
+  menuLevels.forEach((el) => el.addEventListener('click', goToLevelListener))
 
-  if (level >= 3) {
-    buttonLeft.addEventListener('mousedown', leftMouseDown)
-    buttonRight.addEventListener('mousedown', rightMouseDown)
-    buttonLeft.addEventListener('mouseup', stopMoving)
-    buttonRight.addEventListener('mouseup', stopMoving)
+  setTimeout(() => {
+    if (getLevel() >= 3) {
+      buttonLeft.addEventListener('mousedown', leftMouseDown)
+      buttonRight.addEventListener('mousedown', rightMouseDown)
+      buttonLeft.addEventListener('mouseup', stopMoving)
+      buttonRight.addEventListener('mouseup', stopMoving)
 
-    buttonLeft.addEventListener('touchstart', leftTouchStart)
-    buttonRight.addEventListener('touchstart', rightTouchStart)
-    buttonLeft.addEventListener('touchend', stopMoving)
-    buttonRight.addEventListener('touchend', stopMoving)
-  }
+      buttonLeft.addEventListener('touchstart', leftTouchStart)
+      buttonRight.addEventListener('touchstart', rightTouchStart)
+      buttonLeft.addEventListener('touchend', stopMoving)
+      buttonRight.addEventListener('touchend', stopMoving)
+    }
+  }, 0)
 }

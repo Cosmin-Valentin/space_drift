@@ -14,15 +14,15 @@ import { changeShip } from './ui/shipSelect.js'
 import { setDifficulty } from './ui/setDifficulty.js'
 
 export const startButton = document.querySelector('.top-right-start-banner')
-export const reStartButton = document.querySelector('.top-right-restart-banner')
+export const menuButton = document.querySelector('.top-right-menu')
 export const gameWrapper = document.querySelector('.game-wrapper')
 export const shipWrapper = document.querySelector('.ship-wrapper')
 export const shipImage = document.querySelector('.ship img')
 export const gamePrompt = document.querySelector('.game-prompt')
 export let isProcessing = false
 export let isGameStarted = false
-export let level = 4
 
+let level = 0
 const path = document.querySelector('.path')
 const eventDuration = 100
 let isDifficultySet = false
@@ -31,6 +31,7 @@ let difficulty = null
 let maxObstacle = null
 
 initializeEventListeners()
+isGoToLevel()
 
 async function setGameDifficulty() {
   if (!isDifficultySettingInProgress) {
@@ -69,7 +70,7 @@ function prepareGameStart() {
     shipWrapper.style.transition = 'bottom 1s ease-in'
     shipWrapper.classList.remove('choose-ship')
     startButton.style.display = 'none'
-    reStartButton.style.display = 'flex'
+    menuButton.style.display = 'flex'
     gamePrompt.querySelector('.game-prompt-text').classList.remove('animated')
 
     maxObstacle ??= difficulty === 0 ? 60 : difficulty === 1 ? 80 : 100
@@ -84,24 +85,15 @@ async function handleGameEnd(score, isInverted = false) {
 
   if (isInverted) {
     await updatePrompt(`Try avoiding over ${score} to progress.`)
-    reStartButton.style.animation =
-      '0.8s linear 0s infinite normal none running flicker'
     restartLevel()
   } else if (score < targetScore) {
     await updatePrompt(`Try collecting over ${targetScore} to progress.`)
-    reStartButton.style.animation =
-      '0.8s linear 0s infinite normal none running flicker'
     restartLevel()
   } else if (level < 4) {
     await updatePrompt(`Level Over! Congrats!`)
-    if (++level === 3) {
-      initializeEventListeners()
-    }
     init()
   } else {
     await updatePrompt(`Game over! You're a true space cadet!`)
-    reStartButton.style.animation =
-      '0.8s linear 0s infinite normal none running flicker'
   }
 }
 
@@ -130,10 +122,13 @@ export async function init(restartLevel = false) {
     initializeEventListeners(true)
     spawnObstacleOpposite(gameState, restartLevel)
   } else if (level === 3) {
+    initializeEventListeners()
     spawnAsteroids(gameState, restartLevel)
   } else if (level === 4) {
+    initializeEventListeners()
     spawnWonderland(gameState, restartLevel)
   } else {
+    initializeEventListeners()
     spawnObstacle(gameState, restartLevel)
   }
 }
@@ -174,4 +169,24 @@ export function removePressedClass() {
   document
     .querySelectorAll('.bottom-dashboard')
     .forEach((el) => el.classList.remove('pressed'))
+}
+
+export const getLevel = () => level
+
+async function isGoToLevel() {
+  const savedLevel = localStorage.getItem('startLevel')
+  const savedShip = localStorage.getItem('startShip')
+  if (savedLevel !== null && savedShip !== null) {
+    level = parseInt(savedLevel)
+    const newSrc = `assets/images/ships/ship-${savedShip}.png`
+    shipImage.setAttribute('src', newSrc)
+    if (level === 0) {
+      await travelToNextLevel()
+    }
+    difficulty = 0
+    maxObstacle = 60
+    localStorage.removeItem('startLevel')
+    localStorage.removeItem('startShip')
+    prepareGameStart()
+  }
 }

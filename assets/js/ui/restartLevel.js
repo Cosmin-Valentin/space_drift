@@ -1,4 +1,4 @@
-import { reStartButton, init } from '../main.js'
+import { init } from '../main.js'
 
 export function restartLevel() {
   const leftRestartBtn = document.querySelector('.top-left-banner')
@@ -10,7 +10,6 @@ export function restartLevel() {
   leftRestartBtn.textContent = 'Restart level?'
 
   const handleClick = () => {
-    reStartButton.style.removeProperty('animation')
     leftRestartBtn.style.removeProperty('animation')
     leftRestartBtn.style.removeProperty('cursor')
     leftRestartBtn.innerHTML = 'Your score: <span>0</span>'

@@ -43,8 +43,8 @@ export function spawnWonderland(game, restart = false) {
       obstacle.classList.add('asteroid')
       game.lastAsteroidSpawn = game.obstacleCount
     } else if (
-      game.obstacleCount - (game.lastResizeSpawn || 0) >= 20 &&
-      Math.random() * 7 < 1
+      game.obstacleCount - (game.lastResizeSpawn || 0) >= 15 &&
+      Math.random() * 5 < 1
     ) {
       obstacle.classList.add(Math.random() < 0.5 ? 'eat-me' : 'drink-me')
       game.lastResizeSpawn = game.obstacleCount
