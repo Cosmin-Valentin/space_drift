@@ -91,6 +91,7 @@ async function handleGameEnd(score, isInverted = false) {
     restartLevel()
   } else if (level < 4) {
     await updatePrompt(`Level Over! Congrats!`)
+    level++
     init()
   } else {
     await updatePrompt(`Game over! You're a true space cadet!`)
