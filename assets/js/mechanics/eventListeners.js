@@ -13,6 +13,7 @@ import {
 } from '../main.js'
 
 import { startMoving, stopMoving } from '../helper/moveShip.js'
+import { levelProgress } from '../helper/levelProgress.js'
 
 let keydownListener
 let leftButtonListener
@@ -105,7 +106,7 @@ export function initializeEventListeners(invertControls = false) {
     const shipImg = document.querySelector('.ship-img')
     const shipSrc = shipImg.getAttribute('src')
     const match = shipSrc.match(/ship-(\d+)\.png/)
-    if (startLevel && match && maxObstacle && difficulty) {
+    if (startLevel && match && maxObstacle && difficulty >= 0) {
       localStorage.setItem('startLevel', startLevel)
       localStorage.setItem('startShip', parseInt(match[1]))
       localStorage.setItem('startMaxObstacle', maxObstacle)
@@ -135,5 +136,7 @@ export function initializeEventListeners(invertControls = false) {
       buttonLeft.addEventListener('touchend', stopMoving)
       buttonRight.addEventListener('touchend', stopMoving)
     }
+
+    levelProgress(getLevel(), menuLevels)
   }, 0)
 }
