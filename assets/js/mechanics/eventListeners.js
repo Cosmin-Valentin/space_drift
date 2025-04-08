@@ -7,7 +7,9 @@ import {
   menuButton,
   isProcessing,
   isGameStarted,
-  getLevel
+  getLevel,
+  difficulty,
+  maxObstacle
 } from '../main.js'
 
 import { startMoving, stopMoving } from '../helper/moveShip.js'
@@ -103,9 +105,11 @@ export function initializeEventListeners(invertControls = false) {
     const shipImg = document.querySelector('.ship-img')
     const shipSrc = shipImg.getAttribute('src')
     const match = shipSrc.match(/ship-(\d+)\.png/)
-    if (startLevel && match) {
+    if (startLevel && match && maxObstacle && difficulty) {
       localStorage.setItem('startLevel', startLevel)
       localStorage.setItem('startShip', parseInt(match[1]))
+      localStorage.setItem('startMaxObstacle', maxObstacle)
+      localStorage.setItem('startDifficulty', difficulty)
       window.location.reload()
     }
   }

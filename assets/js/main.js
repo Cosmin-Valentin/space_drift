@@ -21,17 +21,17 @@ export const shipImage = document.querySelector('.ship img')
 export const gamePrompt = document.querySelector('.game-prompt')
 export let isProcessing = false
 export let isGameStarted = false
+export let difficulty = null
+export let maxObstacle = null
 
 let level = 0
 const path = document.querySelector('.path')
 const eventDuration = 100
 let isDifficultySet = false
 let isDifficultySettingInProgress = false
-let difficulty = null
-let maxObstacle = null
 
 initializeEventListeners()
-isGoToLevel()
+goToLevel()
 
 async function setGameDifficulty() {
   if (!isDifficultySettingInProgress) {
@@ -174,20 +174,29 @@ export function removePressedClass() {
 
 export const getLevel = () => level
 
-async function isGoToLevel() {
+async function goToLevel() {
   const savedLevel = localStorage.getItem('startLevel')
   const savedShip = localStorage.getItem('startShip')
-  if (savedLevel !== null && savedShip !== null) {
+  const startDifficulty = localStorage.getItem('startDifficulty')
+  const startMAxObstacle = localStorage.getItem('startMaxObstacle')
+  if (
+    savedLevel !== null &&
+    savedShip !== null &&
+    startDifficulty !== null &&
+    startMAxObstacle !== null
+  ) {
     level = parseInt(savedLevel)
     const newSrc = `assets/images/ships/ship-${savedShip}.png`
     shipImage.setAttribute('src', newSrc)
     if (level === 0) {
       await travelToNextLevel()
     }
-    difficulty = 0
-    maxObstacle = 60
+    difficulty = parseInt(startDifficulty)
+    maxObstacle = parseInt(startMAxObstacle)
     localStorage.removeItem('startLevel')
     localStorage.removeItem('startShip')
+    localStorage.removeItem('startMaxObstacle')
+    localStorage.removeItem('startDifficulty')
     prepareGameStart()
   }
 }
