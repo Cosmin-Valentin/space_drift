@@ -2,6 +2,8 @@
   --background-color: #222222;
   --dashboard-color: #2c609c;
   --white: #fafafa;
+  --green: #00ff00;
+  --red: #ff0000;
 }
 
 * {
@@ -279,7 +281,8 @@ body {
   margin-right: -25%;
 }
 
-.landscape-modal {
+.landscape-modal,
+.modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -293,11 +296,65 @@ body {
 }
 
 .landscape-modal p {
-  background-color: white;
+  background-color: var(--white);
   padding: 20px;
   margin: auto 20px;
   border-radius: 5px;
   text-align: center;
+}
+
+.modal-content {
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+  background: var(--background-color);
+  color: var(--white);
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  font-family: 'Press Start 2P', sans-serif;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-family: inherit;
+}
+
+.modal-content p {
+  font-family: inherit;
+  margin-bottom: 15px;
+  animation: 1s linear 0s infinite normal none running flicker;
+}
+
+.modal-content input {
+  font-family: inherit;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  width: 100px;
+  text-align: center;
+  background: var(--background-color);
+  color: var(--white);
+  border: 2px solid var(--white);
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.modal-content button {
+  font-family: inherit;
+  background: var(--white);
+  color: var(--background-color);
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.green-text {
+  color: var(--green);
+}
+
+.blue-text {
+  color: var(--white);
 }
 
 @media screen and (max-width: 768px) {

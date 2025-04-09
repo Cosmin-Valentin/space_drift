@@ -1,5 +1,7 @@
 import { GameState } from './core/GameState.js'
+import { HighScoreManager } from './core/HighScoreManager.js'
 import { travelToNextLevel } from './helper/travelToNextLevel.js'
+import { showNamePrompt } from './helper/showNamePrompt.js'
 import { initializeEventListeners } from './mechanics/eventListeners.js'
 import { shipDodge } from './mechanics/shipDodge.js'
 import { spawnObstacle } from './mechanics/obstacle.js'
@@ -71,7 +73,9 @@ function prepareGameStart() {
     shipWrapper.classList.remove('choose-ship')
     startButton.style.display = 'none'
     menuButton.style.display = 'flex'
-    gamePrompt.querySelector('.game-prompt-text').classList.remove('animated')
+    gamePrompt
+      .querySelector('.game-prompt-text')
+      .classList.remove('animated', 'high-scores')
 
     maxObstacle ??= difficulty === 0 ? 60 : difficulty === 1 ? 80 : 100
     isGameStarted = true
@@ -95,6 +99,8 @@ async function handleGameEnd(score, isInverted = false) {
     init()
   } else {
     await updatePrompt(`Game over! You're a true space cadet!`)
+    const highScoreManager = new HighScoreManager()
+    highScoreManager.tryAddScore(score, showNamePrompt)
   }
 }
 
