@@ -26,7 +26,7 @@ export let isGameStarted = false
 export let difficulty = null
 export let maxObstacle = null
 
-let level = 4
+let level = 0
 const path = document.querySelector('.path')
 const eventDuration = 100
 let isDifficultySet = false
