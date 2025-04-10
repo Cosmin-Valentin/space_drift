@@ -83,13 +83,11 @@ export function initializeEventListeners(invertControls = false) {
   leftButtonListener = (e) => {
     if (getLevel() < 3) {
       handleTouch(e, invertControls ? 'right' : 'left')
-      removePressedClass()
     }
   }
   rightButtonListener = (e) => {
     if (getLevel() < 3) {
       handleTouch(e, invertControls ? 'left' : 'right')
-      removePressedClass()
     }
   }
 
