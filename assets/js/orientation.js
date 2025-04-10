@@ -1,3 +1,18 @@
+const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  )
+}
+
+const hideUrlBar = () => {
+  if (isMobileDevice()) {
+    window.scrollTo(0, 1)
+    setTimeout(() => {
+      window.scrollTo(0, 1)
+    }, 100)
+  }
+}
+
 setScreenHeight()
 
 window.addEventListener('resize', checkOrientation)
@@ -8,7 +23,7 @@ function checkOrientation() {
     showLandscapeModal()
   } else {
     hideLandscapeModal()
-    setScreenHeight()
+    hideUrlBar()
   }
 }
 
@@ -18,11 +33,4 @@ showLandscapeModal = () => {
 
 hideLandscapeModal = () => {
   document.querySelector('.landscape-modal').style.display = 'none'
-}
-
-function setScreenHeight() {
-  // const vh = window.visualViewport
-  //   ? window.visualViewport.height
-  //   : window.innerHeight
-  // document.documentElement.style.setProperty('--vh', `${vh}px`)
 }

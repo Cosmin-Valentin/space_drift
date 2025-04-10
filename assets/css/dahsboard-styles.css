@@ -23,16 +23,38 @@ img {
   pointer-events: none;
 }
 
-html,
+/* html,
 body {
   height: 100dvh;
   width: 100vw;
   background-color: #000201;
+} */
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  width: 100%;
+  background-color: #000201;
+  overflow-x: hidden;
+  position: fixed;
+}
+
+@supports (-webkit-touch-callout: none) {
+  body {
+    height: -webkit-fill-available;
+  }
 }
 
 .fullscreen-rectangle {
+  height: 100vh;
   height: 100dvh;
-  width: 100vw;
+  width: 100%;
   border: 5px solid #000201;
   position: relative;
   overflow: hidden;
