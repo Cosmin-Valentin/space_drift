@@ -1,5 +1,3 @@
-setScreenHeight()
-
 window.addEventListener('resize', checkOrientation)
 window.addEventListener('load', checkOrientation)
 
